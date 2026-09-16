@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="부릉플러스 기사앱 후불결제를 손으로 따라 해보는 연습 화면입니다. 현금·카드(KIS Pay·이지체크)·분할 결제와 현금영수증 발급을 단계별로 익힐 수 있어요." />
-    <title>후불결제 연습하기</title>
+    <meta name="description" content="부릉플러스 기사앱 후불결제를 손으로 따라 해보는 연습 화면입니다(아이폰). 현금·카드(이지체크)·QR 간편·분할 결제를 단계별로 익힐 수 있어요." />
+    <title>후불결제 연습하기 (아이폰)</title>
     <style>
       /* 후불결제 연습하기 — 페이지 껍데기, 폰 프레임, 안내 배너, 탭 위치 강조 */
 
@@ -3032,6 +3032,183 @@ button {
   color: #888;
 }
 
+/* iOS에만 있는 화면 모양. src/screens.css 뒤에 붙습니다. */
+
+/* ── 결제수단 시트 · QR 간편과 분할을 한 줄에 ──────────────── */
+
+.opt-row {
+  display: flex;
+  gap: 8px;
+}
+
+.opt-row .opt {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── 분할 결제 시트 아래 버튼 셋 ─────────────────────────
+ * QR은 아이콘만 들어가서 좁게, 현금·카드는 나머지를 나눠 씁니다. */
+
+.split__btns--ios .split__btn--qr {
+  flex: 0 0 52px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ── 한 회차를 받고 잠깐 뜨는 «결제 완료» ─────────────────── */
+
+.dim--strong {
+  background: rgba(12, 18, 30, 0.5);
+  z-index: 30;
+}
+
+.mini-done {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 31;
+  width: 148px;
+  padding: 22px 16px 20px;
+  background: #fff;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(12, 18, 30, 0.3);
+  animation: pop 0.22s ease-out;
+}
+
+.mini-done .outro__check {
+  width: 34px;
+  height: 34px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.mini-done__t {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
+/* 현금으로 받은 회차에만 위에서 내려오는 M캐시 알림 */
+.headsup--split {
+  z-index: 32;
+}
+
+/* ── 이지체크 · 간편결제 (QR) ───────────────────────────── */
+
+.ec__body--qr {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+
+.ec__h--qr {
+  line-height: 1.45;
+}
+
+/* 실제로는 카메라가 열립니다. 연습이라 고객 폰을 비추고 있는 모습으로 그렸습니다. */
+.qr-cam {
+  flex: 1;
+  min-height: 150px;
+  margin: 10px 0 0;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #6b6f76 0%, #3f434a 55%, #2b2e33 100%);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.qr-phone {
+  width: 126px;
+  padding: 10px 10px 12px;
+  border-radius: 10px;
+  background: #f4f1fb;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  cursor: pointer;
+}
+
+.qr-phone__t {
+  margin: 0 0 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #3b3f4a;
+}
+
+/* 바코드 — 굵기가 다른 세로줄을 반복해서 그립니다 */
+.qr-phone__bars {
+  height: 38px;
+  border-radius: 2px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #1b1d22 0 2px,
+    transparent 2px 4px,
+    #1b1d22 4px 5px,
+    transparent 5px 9px,
+    #1b1d22 9px 12px,
+    transparent 12px 14px
+  );
+  background-color: #fff;
+}
+
+.qr-phone__sub {
+  margin: 8px 0 0;
+  font-size: 9px;
+  color: #6b6f7a;
+}
+
+/* 하단 지원 간편페이 안내 — 디자인에서 빨간 글씨입니다 */
+.ec__pays {
+  margin: 10px 0 0;
+  padding: 8px 0 10px;
+  text-align: center;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #e8232a;
+}
+
+/* 식별번호 줄 */
+.ec__qrno {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 14px;
+  color: #111;
+}
+
+.ec__qrno b {
+  flex: none;
+  font-weight: 400;
+}
+
+.ec__qrno .ec__input {
+  flex: 1;
+  min-width: 0;
+}
+
+.ec__kind {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: #111;
+}
+
+.ec__guide {
+  margin: 44px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: #111;
+}
+
     </style>
   </head>
   <body>
@@ -3122,6 +3299,13 @@ const KIS_WAY = {
   easy: `<svg viewBox="0 0 30 30" fill="none"><rect x="4" y="9" width="22" height="12" rx="6" fill="#00c4b3"/><text x="15" y="17" font-size="6" text-anchor="middle" fill="#fff" font-weight="700">PAY</text></svg>`,
   apple: `<svg viewBox="0 0 30 30" fill="none"><ellipse cx="15" cy="15" rx="10" ry="7" stroke="#4a4f63" stroke-width="1.6"/><circle cx="15" cy="15" r="3" fill="#4a4f63"/></svg>`,
 }
+
+/* iOS에만 있는 아이콘. src/icons.js의 ICON에 얹습니다.
+ *
+ * 결제수단 아이콘들(현금·카드·분할)과 같은 식으로 그립니다 — 16px, 옅은 파랑
+ * 덩어리에 진한 파랑으로 포인트. 작게 들어가므로 잔점은 넣지 않습니다. */
+
+ICON.qr = `<svg viewBox="0 0 20 20" width="16" height="16"><rect x="1.5" y="1.5" width="7" height="7" rx="1.6" fill="#b9d4f7"/><rect x="11.5" y="1.5" width="7" height="7" rx="1.6" fill="#b9d4f7"/><rect x="1.5" y="11.5" width="7" height="7" rx="1.6" fill="#b9d4f7"/><rect x="11.5" y="11.5" width="3" height="3" rx="0.7" fill="#1b64da"/><rect x="15.5" y="11.5" width="3" height="3" rx="0.7" fill="#1b64da"/><rect x="11.5" y="15.5" width="3" height="3" rx="0.7" fill="#1b64da"/><rect x="15.5" y="15.5" width="3" height="3" rx="0.7" fill="#1b64da"/></svg>`
 
 /* 연습 화면 그리기 — 각 함수는 state를 받아 HTML 문자열을 돌려줍니다.
  * 탭해야 하는 요소에는 id를 달아 두고, 단계 정의(steps.js)에서 그 id를 가리킵니다. */
@@ -3865,17 +4049,216 @@ const SCREENS = {
   ecError,
 }
 
-/* 연습 갈래와 단계 정의 (안드로이드 기준).
+/* iOS에서만 다른 화면들. src/screens.js를 먼저 읽고 그 위에 얹습니다.
  *
- * 한 단계 = 화면 하나 + 지시 한 줄 + 눌러야 할 곳 하나.
- *   screen  screens.js의 함수 이름
- *   state   그 화면에 넘길 값 (금액, 배지, 얼럿 표시 여부 …)
- *   q       지금 어떤 상황인지 (배너 윗줄)
- *   a       무엇을 눌러야 하는지 (배너 아랫줄, <b>는 실제 버튼 이름)
- *   note    알아둘 것 (선택)
- *   target  눌러야 하는 요소의 선택자
- *   auto    누를 것이 없는 화면을 이 시간(ms) 뒤 자동으로 넘김
- *   type    키패드로 금액을 채우는 단계. 입력이 expect와 같아지면 넘어감
+ * 안드로이드와 갈리는 곳은 네 군데입니다.
+ *   1. KIS Pay가 없습니다 — 카드는 곧장 이지체크로 넘어갑니다
+ *   2. 결제수단 시트에 «QR 간편»이 하나 더 있습니다
+ *   3. 분할 결제 시트 아래에 QR 버튼이 하나 더 붙습니다
+ *   4. 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고, 배달지 화면으로
+ *      나가지 않고 잔액이 줄어든 분할 화면에 그대로 남습니다
+ *
+ * 이지체크(KICC)는 두 OS가 같은 앱이라 src/screens.js 것을 그대로 씁니다.
+ */
+
+/* ── 이지체크 껍데기 — 제목을 바꿀 수 있게 다시 씁니다 ─────
+ * 간편결제 화면은 상단 제목이 «간편결제»·«간편결제 승인»입니다.
+ * 기본값이 «신용구매»라 기존 카드 화면들은 손대지 않아도 그대로 돕니다. */
+function ecChrome(inner, { back = true, title = '신용구매' } = {}) {
+  return `<div class="ec">
+    <div class="ec__status"><span class="ec__time">4:28</span><span>✈ ᯤ 🔋</span></div>
+    <div class="ec__bar"><span>${back ? '‹' : ''}</span><span>${title}</span><span class="ec__home-ic">⌂</span></div>
+    ${inner}
+    <div class="ec__indicator"></div>
+  </div>`
+}
+
+/* ── 결제수단 시트 (iOS) ─────────────────────────────────
+ * 현금·카드는 한 줄씩 넓게, QR 간편과 분할은 아래 한 줄에 나란히 놓입니다. */
+
+function methodSheetIos(s) {
+  return `${detail(s)}
+    <div class="dim"></div>
+    <div class="sheet sheet--method">
+      <span class="sheet__x">✕</span>
+      <h4 class="sheet__title">어떻게 결제하시겠어요?</h4>
+      <p class="sheet__amount-label">총 결제 금액</p>
+      <p class="sheet__amount">${won(s.remain ?? s.total)}</p>
+      <button class="opt" id="m-cash">${ICON.cash} 현금</button>
+      <button class="opt" id="m-card">${ICON.card} 카드</button>
+      <div class="opt-row">
+        <button class="opt" id="m-qr">${ICON.qr} QR 간편</button>
+        <button class="opt" id="m-split">${ICON.split} 분할</button>
+      </div>
+    </div>`
+}
+
+/* ── 분할 결제 시트 (iOS) ───────────────────────────────
+ * 아래 버튼이 셋입니다 — QR(아이콘만) · 현금 · 카드. */
+
+function splitSheetIos(s) {
+  const typed = s.typed || 0
+  const remain = s.remain ?? s.total
+  const over = typed > remain
+  const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '00', '0', '←']
+  const round2 = remain < s.total
+
+  const head = round2
+    ? `<p class="split__remain">남은금액 ${won(remain)}</p>
+       <p class="split__hint">총 ${won(s.total)}</p>`
+    : `<p class="split__total">총 ${won(remain)} 중</p>
+       <p class="split__hint">(컵 보증금 900원 포함)</p>`
+
+  const input = typed
+    ? `${won(typed)}${round2 ? '<i class="split__clear">✕</i>' : ''}`
+    : '<i class="split__caret"></i>얼마를 결제할까요?'
+
+  const on = typed && !over ? ' is-on' : ''
+
+  return `${detail(s)}
+    <div class="dim"></div>
+    <div class="sheet">
+      <span class="sheet__x">✕</span>
+      <h4 class="sheet__title">분할 결제</h4>
+      ${head}
+      <p class="split__input${typed ? ' is-filled' : ''}">${input}</p>
+      <p class="split__err">${over ? '남은 금액보다 작게 입력하세요' : ''}</p>
+      <div class="split__pad">
+        ${
+          round2
+            ? ''
+            : `<div class="quick">
+          <button class="quick__btn" id="q-1000">+1천원</button>
+          <button class="quick__btn" id="q-5000">+5천원</button>
+          <button class="quick__btn" id="q-10000">+1만원</button>
+        </div>`
+        }
+        <div class="keypad">
+          ${keys.map((k) => `<button class="keypad__key" id="k-${k === '←' ? 'back' : k}">${k}</button>`).join('')}
+        </div>
+      </div>
+      <div class="split__btns split__btns--ios">
+        <button class="split__btn split__btn--qr${on}" id="s-qr">${ICON.qr}</button>
+        <button class="split__btn${on}" id="s-cash">${ICON.cash} 현금</button>
+        <button class="split__btn${on}" id="s-card">${ICON.card} 카드</button>
+      </div>
+    </div>`
+}
+
+/* ── 한 회차를 받으면 잠깐 뜨는 «결제 완료» ─────────────────
+ * 1초쯤 떴다 저절로 사라지고 분할 화면으로 돌아갑니다. 현금으로 받은
+ * 회차에는 M캐시 잔액이 바뀌었다는 알림이 위에 함께 뜹니다. */
+
+function splitDoneIos(s) {
+  const label = { cash: '현금 결제 완료', card: '카드 결제 완료', qr: '간편 결제 완료' }[s.paidWith || 'cash']
+  return `${splitSheetIos(s)}
+    <div class="dim dim--strong"></div>
+    ${
+      s.paidWith === 'cash'
+        ? `<div class="headsup headsup--split">
+      <p class="headsup__t">상품가액 출금</p>
+      <p class="headsup__b">상품가액 현금 수취로 M캐시 잔액이 변경되었습니다.</p>
+    </div>`
+        : ''
+    }
+    <div class="mini-done">
+      ${ICON.check}
+      <p class="mini-done__t">${label}</p>
+    </div>`
+}
+
+/* ── 이지체크 · 간편결제 (QR) ────────────────────────────
+ * 고객 휴대폰의 바코드·QR을 기사님 카메라로 읽는 화면입니다.
+ * 실제로는 카메라가 열리지만, 연습이라 고객 폰 모양을 눌러보게 했습니다. */
+
+function ecQr(s = {}) {
+  return ecChrome(
+    `<div class="ec__body ec__body--qr">
+      <p class="ec__h ec__h--qr">BARCODE 또는 QRCODE를<br>카메라에 읽혀주세요</p>
+      <div class="qr-cam">
+        <div class="qr-phone" id="e-qr-code">
+          <p class="qr-phone__t">QR 결제</p>
+          <div class="qr-phone__bars"></div>
+          <p class="qr-phone__sub">네이버페이 머니카드</p>
+        </div>
+      </div>
+      ${s.reading ? ecBarcodeAlert() : ''}
+      <p class="ec__pays">** 지원 가능한 간편페이 종류 **<br>엘페이 카카오페이 알리페이 SSG 네이버페이</p>
+    </div>`,
+    { title: '간편결제' },
+  )
+}
+
+/** 바코드를 읽으면 번호를 보여주고 이 번호가 맞는지 물어봅니다. */
+function ecBarcodeAlert() {
+  return `<div class="ec__alert">
+    <h4>[BARCODE READING]</h4>
+    <p>바코드 번호 : 404577******352800000<br>사용하시겠습니까?</p>
+    <div class="ec__alert-btns">
+      <button id="e-qr-ok">확인</button>
+      <button id="e-qr-again">다시</button>
+    </div>
+  </div>`
+}
+
+/** 읽힌 번호와 결제 유형을 확인하는 화면입니다. */
+function ecQrNum() {
+  return ecChrome(
+    `<div class="ec__body">
+      <p class="ec__h">BARCODE 번호를 입력해주세요</p>
+      <div class="ec__qrno">
+        <b>식별번호</b>
+        <span class="ec__input">404577******352800…<i class="ec__clear">✕</i></span>
+      </div>
+      <p class="ec__kind">결제 유형 : 현대비자개인</p>
+      <p class="ec__guide">바코드 리딩 방법을 선택해주세요.</p>
+      <button class="ec__ok" id="e-qrno-ok">확인</button>
+    </div>`,
+    { title: '간편결제' },
+  )
+}
+
+/** 금액을 확인하고 승인을 올립니다. 카드 쪽 금액 화면과 같은 모양입니다. */
+function ecQrAmount(s) {
+  const amt = s.payNow ?? s.total
+  const n = amt.toLocaleString('ko-KR')
+  return ecChrome(
+    `<div class="ec__body">
+      <div class="ec__amt">
+        <div class="ec__amt-row"><b>금액</b><span class="ec__input">${n}<i class="ec__clear">✕</i></span><em>원</em></div>
+        <div class="ec__amt-row"><b>부가세</b><span class="ec__input">0</span><em>원</em></div>
+        <div class="ec__amt-row"><b>봉사료</b><span class="ec__input">0</span><em>원</em></div>
+        <div class="ec__amt-row is-total"><b>합계</b><span class="ec__input">${n}</span><em>원</em></div>
+        <div class="ec__amt-row"><b>할부개월</b>
+          <span class="ec__seg"><i class="is-on">일시불</i><i>할부</i></span>
+          <span class="ec__input ec__input--sm"></span><em>개월</em></div>
+      </div>
+      <button class="ec__ok" id="e-qramt-ok">확인</button>
+    </div>`,
+    { title: '간편결제 승인' },
+  )
+}
+
+/* ── 갈아끼우기 ──────────────────────────────────────────
+ * 이름이 같은 화면은 iOS 것으로 바꾸고, 새 화면은 더합니다. */
+
+Object.assign(SCREENS, {
+  methodSheet: methodSheetIos,
+  splitSheet: splitSheetIos,
+  splitDone: splitDoneIos,
+  ecQr,
+  ecQrNum,
+  ecQrAmount,
+})
+
+/* 연습 갈래와 단계 정의 — 아이폰(iOS) 기준.
+ *
+ * 단계 모양은 안드로이드와 같습니다 (src/steps.js 머리말 참고).
+ * 안드로이드와 갈리는 곳만 적어둡니다.
+ *   · KIS Pay가 없습니다. 카드는 «카드 결제하기»를 누르면 곧장 이지체크로 넘어갑니다
+ *   · 결제수단에 «QR 간편»이 있습니다. 고객 폰의 바코드·QR을 카메라로 읽습니다
+ *   · 분할 결제는 한 회차를 받아도 배달지 화면으로 나가지 않고,
+ *     «결제 완료»가 잠깐 떴다 사라진 뒤 잔액이 줄어든 분할 화면에 그대로 남습니다
  */
 
 const TOTAL = 58500
@@ -3918,120 +4301,23 @@ const TRACKS = [
         target: '#d-ok',
       },
     ],
-    /* 완료 화면은 짧게 — 한 줄에 들어오는 길이로 씁니다. */
-    recap: [
-      '받은 현금만큼 <b>M캐시에서 차감</b>돼요',
-      '취소는 <b>VCC 1800-8255</b> 전화로만 돼요',
-    ],
+    recap: ['받은 현금만큼 <b>M캐시에서 차감</b>돼요', '취소는 <b>VCC 1800-8255</b> 전화로만 돼요'],
   },
 
   /* ═════════════ 2. 카드 결제 ═════════════
-   * 앞부분은 KIS Pay(리더기·NFC), 뒷부분은 카드번호 직접 입력(이지체크·KICC)입니다.
-   * 기사가 둘 다 만나므로 한 갈래에서 이어서 연습합니다. */
+   * 아이폰은 KIS Pay를 거치지 않고 바로 이지체크(KICC) 앱으로 넘어갑니다. */
   {
     id: 'card',
     title: '카드 결제',
-    desc: 'KIS Pay로 받거나 카드번호를 직접 입력해요',
+    desc: '이지체크 앱에서 카드를 읽어요',
     steps: [
       {
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
         q: '후불카드 오더예요. 고객이 카드를 줬어요',
         a: '<b>카드 58,500원 결제하기</b>를 눌러주세요',
+        note: '아이폰은 누르면 바로 이지체크 앱이 열려요',
         target: '#cta',
-      },
-      {
-        screen: 'cardSheet',
-        state: { order: 'card', total: TOTAL },
-        q: '카드 결제 창이 열렸어요',
-        a: '<b>두 가지 방법</b> 중에 고를 수 있어요',
-        target: '.sheet__opts',
-        tip: {
-          title: '카드로 받는 방법은 두 가지',
-          desc: 'KIS Pay 앱이 안 되면 <b>카드 직접 입력</b>으로 결제할 수 있어요',
-        },
-      },
-      {
-        screen: 'cardSheet',
-        state: { order: 'card', total: TOTAL },
-        q: '먼저 KIS Pay로 해볼게요',
-        a: '<b>KIS Pay 결제</b>를 눌러주세요',
-        note: 'NFC·삼성페이·카드 리더기로 받을 때 써요',
-        target: '#c-kispay',
-      },
-      {
-        screen: 'kispayLoading',
-        state: {},
-        q: 'KIS Pay 앱으로 넘어가고 있어요',
-        a: '잠시만 기다려주세요',
-        auto: 900,
-      },
-      {
-        screen: 'kispay',
-        state: { total: TOTAL },
-        q: 'KIS Pay 앱이 열렸어요',
-        a: '<b>여러 방법</b>으로 결제할 수 있어요',
-        target: '.kis__grid',
-        tip: {
-          title: 'KIS Pay 결제 방법',
-          desc: '카드 리더기가 있으면 <b>블루투스결제</b>, 없으면 신용결제·삼성페이·<b>카메라결제</b>·간편결제·애플페이를 쓸 수 있어요',
-        },
-      },
-      {
-        screen: 'kispay',
-        state: { total: TOTAL },
-        q: '이번에는 리더기 없이 해볼게요',
-        a: '결제수단에서 <b>카메라결제</b>를 눌러주세요',
-        note: '금액은 부릉플러스에서 그대로 넘어와요. 고쳐서 넣지 마세요',
-        target: '#k-way-camera',
-      },
-      {
-        screen: 'kispayCamera',
-        state: {},
-        q: '카메라로 카드를 비추는 화면이에요',
-        a: '네모 안의 <b>카드</b>를 눌러주세요',
-        note: '실제로는 카드를 네모에 맞추면 읽혀요. 실물 카드가 맞는지 꼭 확인하세요',
-        target: '#k-cam-card',
-      },
-      {
-        screen: 'kispayReceipt',
-        state: { total: TOTAL },
-        q: '승인이 끝나고 영수증이 나왔어요',
-        a: '<b>확인</b>을 눌러주세요',
-        note: '확인을 눌러야 부릉플러스로 돌아와요',
-        target: '#k-ok',
-      },
-      {
-        screen: 'progress',
-        state: { under: 'detail', order: 'card', total: TOTAL },
-        q: '부릉플러스가 결제 결과를 받고 있어요',
-        a: '잠시만 기다려주세요',
-        auto: 900,
-      },
-      {
-        screen: 'done',
-        state: { doneKind: 'card' },
-        q: 'KIS Pay로 받는 방법은 여기까지예요',
-        a: '<b>확인</b>을 눌러 마무리해주세요',
-        target: '#d-ok',
-      },
-
-      /* ── 여기서부터 카드번호 직접 입력 (이지체크 · KICC) ──
-       * Figma 1346:124989~124995 순서 그대로입니다. */
-      {
-        screen: 'detail',
-        state: { order: 'card', total: TOTAL },
-        q: '이번에는 리더기가 없어서 카드번호를 직접 입력해야 해요',
-        a: '다시 <b>카드 58,500원 결제하기</b>를 눌러주세요',
-        target: '#cta',
-      },
-      {
-        screen: 'cardSheet',
-        state: { order: 'card', total: TOTAL },
-        q: '이번에는 아래쪽을 골라요',
-        a: '<b>카드 직접 입력</b>을 눌러주세요',
-        note: '이걸 누르면 이지체크(KICC) 앱이 열려요',
-        target: '#c-keyin',
       },
       {
         screen: 'easycheckShop',
@@ -4046,7 +4332,7 @@ const TRACKS = [
         state: { readerAlert: true },
         q: '리더기를 등록할지 물어봐요',
         a: '<b>취소</b>를 눌러주세요',
-        note: '리더기를 쓰지 않고 번호만 넣을 거라 등록하지 않아요',
+        note: '리더기가 있으면 확인을 눌러 등록해두면 다음부터 자동으로 연결돼요',
         target: '#e-reader-no',
       },
       {
@@ -4069,7 +4355,7 @@ const TRACKS = [
         state: { total: TOTAL },
         q: '받을 금액이 맞는지 보여줘요',
         a: '금액이 맞으면 <b>확인</b>을 눌러주세요',
-        note: '금액은 부릉플러스에서 넘어온 값이에요',
+        note: '금액은 부릉플러스에서 넘어온 값이에요. 고쳐서 넣지 마세요',
         target: '#e-amount-ok',
       },
       {
@@ -4095,22 +4381,119 @@ const TRACKS = [
         target: '#e-done-ok',
       },
       {
+        screen: 'progress',
+        state: { under: 'detail', order: 'card', total: TOTAL },
+        q: '부릉플러스가 결제 결과를 받고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 900,
+      },
+      {
         screen: 'done',
         state: { doneKind: 'card' },
-        q: '카드 직접 입력으로 결제가 끝났어요',
+        q: '카드 결제가 끝났어요',
         a: '<b>확인</b>을 눌러 마무리해주세요',
         target: '#d-ok',
       },
     ],
     recap: [
-      '카드 리더기가 있으면 <b>블루투스결제</b>',
-      '리더기가 없어도 <b>카메라·간편결제·NFC</b>로 돼요',
-      'KIS Pay가 안 되면 <b>카드 직접 입력</b>(이지체크)',
+      '아이폰은 <b>KIS Pay 없이</b> 바로 이지체크로 가요',
+      '리더기를 등록해두면 다음부터 <b>자동으로 연결</b>돼요',
       '이지체크는 <b>마지막 확인</b>까지 눌러야 반영돼요',
     ],
   },
 
-  /* ═════════════ 3. 분할 결제 ═════════════ */
+  /* ═════════════ 3. QR 간편결제 ═════════════
+   * 아이폰에만 있습니다. 고객 폰의 바코드·QR을 기사님 카메라로 읽습니다. */
+  {
+    id: 'qr',
+    title: 'QR 간편결제',
+    desc: '고객 폰의 바코드를 카메라로 읽어요',
+    steps: [
+      {
+        screen: 'detail',
+        state: { order: 'card', total: TOTAL },
+        q: '고객이 카드 대신 <b>페이로 내겠다</b>고 해요',
+        a: '<b>다른 방법으로 결제</b>를 눌러주세요',
+        target: '#alt',
+      },
+      {
+        screen: 'methodSheet',
+        state: { order: 'card', total: TOTAL },
+        q: '결제 방법을 고르는 창이에요',
+        a: '<b>QR 간편</b>을 눌러주세요',
+        note: '아이폰에만 있는 방법이에요',
+        target: '#m-qr',
+      },
+      {
+        screen: 'ecQr',
+        state: {},
+        q: '이지체크 간편결제가 열리고 카메라가 켜져요',
+        a: '고객 폰의 <b>바코드</b>를 비춰주세요',
+        note: '엘페이·카카오페이·알리페이·SSG·네이버페이를 받을 수 있어요',
+        target: '#e-qr-code',
+      },
+      {
+        screen: 'ecQr',
+        state: { reading: true },
+        q: '바코드를 읽고 번호가 맞는지 물어봐요',
+        a: '<b>확인</b>을 눌러주세요',
+        note: '엉뚱한 바코드를 읽었으면 «다시»를 눌러 다시 비추세요',
+        target: '#e-qr-ok',
+      },
+      {
+        screen: 'ecQrNum',
+        state: {},
+        q: '읽은 번호와 결제 유형을 보여줘요',
+        a: '<b>확인</b>을 눌러주세요',
+        target: '#e-qrno-ok',
+      },
+      {
+        screen: 'ecQrAmount',
+        state: { total: TOTAL },
+        q: '받을 금액이 맞는지 보여줘요',
+        a: '금액이 맞으면 <b>확인</b>을 눌러주세요',
+        target: '#e-qramt-ok',
+      },
+      {
+        screen: 'kiccSplash',
+        state: {},
+        q: 'KICC로 승인을 요청하고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 1000,
+      },
+      {
+        screen: 'easycheckDone',
+        state: { total: TOTAL },
+        q: '승인이 끝났어요. 여기가 제일 중요해요',
+        a: '<b>확인</b>을 꼭 눌러주세요',
+        note: '이 확인을 눌러야 부릉플러스에 결제 결과가 들어가요',
+        target: '#e-done-ok',
+      },
+      {
+        screen: 'progress',
+        state: { under: 'detail', order: 'card', total: TOTAL },
+        q: '부릉플러스가 결제 결과를 받고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 900,
+      },
+      {
+        screen: 'done',
+        state: { doneKind: 'card' },
+        q: '간편결제가 끝났어요',
+        a: '<b>확인</b>을 눌러 마무리해주세요',
+        target: '#d-ok',
+      },
+    ],
+    recap: [
+      '<b>다른 방법으로 결제 → QR 간편</b>으로 들어가요',
+      '고객 폰의 <b>바코드·QR</b>을 카메라로 읽어요',
+      '번호가 다르면 <b>다시</b>를 눌러 다시 비춰요',
+    ],
+  },
+
+  /* ═════════════ 4. 분할 결제 ═════════════
+   * 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고, 잔액이 줄어든
+   * 분할 화면에 그대로 남습니다 (안드로이드는 배달지 화면으로 나갑니다). */
   {
     id: 'split',
     title: '분할 결제',
@@ -4126,17 +4509,17 @@ const TRACKS = [
       {
         screen: 'methodSheet',
         state: { order: 'cash', total: TOTAL },
-        q: '받을 방법을 고를 수 있어요',
+        q: '결제 방법을 고르는 창이에요',
         a: '<b>분할</b>을 눌러주세요',
         target: '#m-split',
       },
       {
         screen: 'splitSheet',
-        state: { order: 'cash', total: TOTAL, typed: 0 },
-        q: '먼저 현금으로 받을 20,000원을 넣어요',
-        a: '<b>+1만원</b>을 두 번 누르거나 숫자로 <b>20000</b>을 눌러주세요',
+        state: { order: 'cash', total: TOTAL },
+        q: '이번에 받을 금액을 넣어요',
+        a: '<b>20,000원</b>을 넣어주세요',
+        note: '+1만원을 두 번 눌러도 되고, 숫자를 직접 눌러도 돼요',
         type: { expect: 20000 },
-        target: '.split__pad',
       },
       {
         screen: 'splitSheet',
@@ -4153,56 +4536,77 @@ const TRACKS = [
         target: '#a-cash',
       },
       {
-        screen: 'progress',
-        state: { under: 'detail', order: 'cash', total: TOTAL },
-        q: '현금 20,000원을 처리하고 있어요',
-        a: '잠시만 기다려주세요',
-        auto: 900,
-      },
-      {
-        screen: 'detail',
-        state: { order: 'cash', total: TOTAL, remain: 38500 },
-        q: '20,000원을 받고 배달지 화면으로 돌아왔어요',
-        a: '<b>38,500원 결제하기</b>를 눌러주세요',
-        note: '버튼에는 남은 금액만 떠요',
-        target: '#cta',
+        screen: 'splitDone',
+        state: { order: 'cash', total: TOTAL, typed: 20000, paidWith: 'cash' },
+        q: '현금 20,000원을 받았어요',
+        a: '잠깐 뜨고 저절로 사라져요',
+        note: '아이폰은 배달지 화면으로 나가지 않고 분할 화면에 그대로 남아요',
+        auto: 1500,
       },
       {
         screen: 'splitSheet',
         state: { order: 'cash', total: TOTAL, remain: 38500, typed: 38500 },
-        q: '남은 금액이 이미 채워져 있어요',
+        q: '남은 38,500원이 그대로 채워져 있어요',
         a: '<b>카드</b>를 눌러주세요',
-        note: '더 적게 받으려면 ✕로 지우고 다시 넣으면 돼요',
+        note: '58,500원이 아니라 남은 38,500원이 넘어가요',
         target: '#s-card',
       },
       {
-        screen: 'cardSheet',
-        state: { order: 'cash', total: TOTAL, remain: 38500 },
-        q: '카드로 받는 화면은 카드 결제와 같아요',
-        a: '<b>KIS Pay 결제</b>를 눌러주세요',
-        target: '#c-kispay',
-      },
-      {
-        screen: 'kispay',
-        state: { total: TOTAL, payNow: 38500 },
-        q: '이번 회차 금액만 넘어와요',
-        a: '결제수단에서 <b>카메라결제</b>를 눌러주세요',
-        note: '58,500원이 아니라 남은 38,500원이 찍혀요',
-        target: '#k-way-camera',
-      },
-      {
-        screen: 'kispayCamera',
+        screen: 'easycheckShop',
         state: {},
-        q: '카드를 비춰 읽힐 차례예요',
-        a: '네모 안의 <b>카드</b>를 눌러주세요',
-        target: '#k-cam-card',
+        q: '이지체크 앱이 열려요',
+        a: '<b>확인</b>을 눌러주세요',
+        target: '#e-shop-ok',
       },
       {
-        screen: 'kispayReceipt',
+        screen: 'easycheckRead',
+        state: { readerAlert: true },
+        q: '리더기를 등록할지 물어봐요',
+        a: '<b>취소</b>를 눌러주세요',
+        target: '#e-reader-no',
+      },
+      {
+        screen: 'easycheckRead',
+        state: {},
+        q: '카드번호를 넣을 차례예요',
+        a: '<b>첫 번째 칸</b>을 눌러주세요',
+        target: '#e-no-0',
+      },
+      {
+        screen: 'easycheckKeypad',
+        state: { cardNo: ['4045', '77**', '', ''] },
+        q: '보안 키패드로 번호를 넣어요',
+        a: '번호를 다 넣고 <b>확인</b>을 눌러주세요',
+        target: '#e-key-ok',
+      },
+      {
+        screen: 'easycheckAmount',
+        state: { total: TOTAL, payNow: 38500 },
+        q: '남은 38,500원이 찍혀요',
+        a: '금액이 맞으면 <b>확인</b>을 눌러주세요',
+        note: '총액이 아니라 이번 회차 금액이에요',
+        target: '#e-amount-ok',
+      },
+      {
+        screen: 'easycheckSign',
+        state: { total: TOTAL, payNow: 38500 },
+        q: '서명 화면이에요',
+        a: '잠시만 기다려주세요',
+        auto: 1600,
+      },
+      {
+        screen: 'kiccSplash',
+        state: {},
+        q: 'KICC로 승인을 요청하고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 1000,
+      },
+      {
+        screen: 'easycheckDone',
         state: { total: TOTAL, payNow: 38500 },
         q: '남은 금액 승인이 끝났어요',
-        a: '<b>확인</b>을 눌러주세요',
-        target: '#k-ok',
+        a: '<b>확인</b>을 꼭 눌러주세요',
+        target: '#e-done-ok',
       },
       {
         screen: 'progress',
@@ -4214,98 +4618,15 @@ const TRACKS = [
       {
         screen: 'done',
         state: { doneKind: 'split' },
-        q: '두 번에 나눠 전액을 받았어요',
+        q: '두 번에 나눠 모두 받았어요',
         a: '<b>확인</b>을 눌러 마무리해주세요',
         target: '#d-ok',
       },
     ],
     recap: [
-      '회차마다 <b>현금·카드</b>를 따로 고를 수 있어요',
-      '다시 누르면 <b>남은 금액이 채워져</b> 있어요',
-    ],
-  },
-
-  /* ═════════════ 4. 현금영수증 발급 ═════════════
-   * `안드로이드_현금 영수증.jpg` 플로우: 수행목록 → 결제내역 → 발급번호 입력
-   * → KIS Pay 현금영수증 → 영수증. */
-  {
-    id: 'receipt',
-    title: '현금영수증 발급',
-    desc: '현금으로 받은 건에 영수증을 끊어줘요',
-    steps: [
-      {
-        screen: 'mainMap',
-        state: {},
-        q: '고객이 현금영수증을 해달라고 해요',
-        a: '오른쪽 위 <b>수행목록</b>을 눌러주세요',
-        target: '#m-tasks',
-      },
-      {
-        screen: 'taskList',
-        state: {},
-        q: '방금 배달한 건을 펼쳐뒀어요',
-        a: '<b>결제내역</b>을 눌러주세요',
-        target: '#t-pay',
-      },
-      {
-        screen: 'payHistory',
-        state: { total: TOTAL },
-        q: '현금으로 받은 건이 보여요',
-        a: '<b>현금 영수증 발급</b>을 눌러주세요',
-        note: '카드로 받은 건에는 이 버튼이 없어요',
-        target: '#p-receipt',
-      },
-      {
-        screen: 'receiptSheet',
-        state: { total: TOTAL },
-        q: '개인용인지 사업자용인지 고르고 번호를 넣어요',
-        a: '<b>번호 칸</b>을 눌러 고객 번호를 넣어주세요',
-        note: '사업자 지출증빙이면 위에서 바꿔주세요',
-        target: '#r-input',
-      },
-      {
-        screen: 'receiptSheet',
-        state: { total: TOTAL, no: '01012345678' },
-        q: '번호를 다 넣었어요',
-        a: '<b>발급하기</b>를 눌러주세요',
-        target: '#r-issue',
-      },
-      {
-        screen: 'kisCashReceipt',
-        state: { total: TOTAL },
-        q: 'KIS Pay 현금영수증 화면으로 넘어왔어요',
-        a: '<b>현금영수증 발행</b>을 눌러주세요',
-        note: '넣은 번호가 그대로 넘어와요',
-        target: '#k-issue',
-      },
-      {
-        screen: 'kispayReceipt',
-        state: { total: TOTAL, receipt: 'cash' },
-        q: '발급이 끝나고 영수증이 나왔어요',
-        a: '<b>확인</b>을 눌러주세요',
-        note: '확인을 눌러야 부릉플러스로 돌아와요',
-        target: '#k-ok',
-      },
-      {
-        /* 부릉플러스로 돌아오는 동안 «발급중»이 뜹니다 (882:82753) */
-        screen: 'progress',
-        state: { label: '발급중', under: 'payHistory', total: TOTAL },
-        q: '부릉플러스로 돌아오고 있어요',
-        a: '잠시만 기다려주세요',
-        auto: 900,
-      },
-      {
-        screen: 'payHistory',
-        state: { total: TOTAL, issued: true },
-        q: '발급이 끝났어요',
-        a: '한 번 발급하면 <b>버튼이 꺼져요</b>',
-        auto: 2400,
-      },
-    ],
-    recap: [
-      '<b>수행목록 → 결제내역</b>에서 발급해요',
-      '현금으로 받은 건에만 <b>현금영수증 발급</b> 버튼이 있어요',
-      '잘못 접수되면 <b>VCC 1800-8255</b>로 문의해요',
+      '회차마다 <b>현금·카드·QR</b>을 따로 고를 수 있어요',
+      '한 회차를 받아도 <b>분할 화면에 그대로</b> 남아요',
+      '다음 회차는 <b>남은 금액이 채워져</b> 있어요',
     ],
   },
 ]
