@@ -189,11 +189,15 @@ function placeSpot() {
 
   vp.querySelectorAll('.spot, .hand, .tip').forEach((n) => n.remove())
 
+  /* 화면이 낮으면 눌러야 할 곳이 접혀 있을 수 있습니다. 먼저 보이는 자리로 끌어옵니다. */
+  el.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+
   const box = el.getBoundingClientRect()
   const base = vp.getBoundingClientRect()
   const scale = box.width / el.offsetWidth || 1
-  const x = (box.left - base.left) / scale
-  const y = (box.top - base.top) / scale
+  /* .spot은 vp 안에 absolute로 놓이므로, 스크롤한 만큼을 더해야 제자리에 붙습니다. */
+  const x = (box.left - base.left) / scale + vp.scrollLeft
+  const y = (box.top - base.top) / scale + vp.scrollTop
   const w = box.width / scale
   const h = box.height / scale
 

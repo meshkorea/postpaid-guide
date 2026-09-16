@@ -105,16 +105,32 @@ button {
     height: 100dvh;
   }
 
+  /* 기사님이 폰으로 보기 때문에 글씨가 작습니다. 화면 좌표계를 --zoom배 줄이고
+   * 같은 배율로 다시 키우면 글씨·아이콘·여백이 한꺼번에 커지면서도
+   * 화면은 정확히 꽉 찹니다. 크기를 조절하려면 --zoom 하나만 바꾸면 됩니다. */
   .frame {
-    width: 100%;
-    height: 100dvh;
+    --zoom: 1;
+    box-sizing: border-box;
+    width: calc(100vw / var(--zoom));
+    height: calc(100dvh / var(--zoom));
     border: 0;
     border-radius: 0;
     box-shadow: none;
-    transform: none;
-    /* 홈 인디케이터에 버튼이 가리지 않게 합니다 (viewport-fit=cover). */
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: scale(var(--zoom));
+    transform-origin: top left;
+    /* 홈 인디케이터에 버튼이 가리지 않게 합니다 (viewport-fit=cover).
+     * 좌표계가 --zoom배 줄어 있으므로 여백도 같은 배로 나눕니다. */
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) / var(--zoom));
   }
+}
+
+/* 화면이 높을수록 더 키웁니다. 낮은 폰에서 무리하게 키우면 바텀시트 아래가 잘려요. */
+@media (max-width: 520px) and (min-height: 700px) {
+  .frame { --zoom: 1.06; }
+}
+
+@media (max-width: 520px) and (min-height: 760px) {
+  .frame { --zoom: 1.12; }
 }
 
 /* ───────────────────────── 안내 배너 ─────────────────────────
@@ -226,9 +242,17 @@ button {
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  /* 화면이 낮은 폰에서는 시트 아래가 잘립니다. 잘린 채 두지 않고 밀어서 볼 수 있게 합니다.
+   * 눌러야 할 곳은 placeSpot()이 알아서 보이는 자리로 끌어옵니다. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: var(--bg);
 }
+
+/* 스크롤 막대는 연습 화면을 어지럽히므로 숨깁니다. */
+.viewport::-webkit-scrollbar { width: 0; height: 0; }
 
 /* ─────────── 눌러야 할 곳만 남기고 화면을 덮습니다 ─────────── */
 
