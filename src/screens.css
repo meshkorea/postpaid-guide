@@ -1,0 +1,2357 @@
+/* 연습에 나오는 화면들 — 부릉플러스 기사앱, KIS Pay 앱, 이지체크(KICC) 앱 */
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* 안드로이드 상태바 — 지도 위에 겹쳐 놓습니다 */
+.statusbar {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
+}
+
+.statusbar--dark {
+  color: #fff;
+}
+
+.statusbar__icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* 안드로이드 내비게이션 바 */
+.navbar {
+  flex: none;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: var(--ink-3);
+  font-size: 15px;
+}
+
+.navbar--dark {
+  background: #000;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ═══════════════ 부릉플러스 · 배달지 상세 ═══════════════ */
+
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  background: #eef0e9;
+}
+
+/* 배달지 상세 — Figma 882:82730 기준.
+ * 바텀시트가 위까지 올라와 있어 지도는 상태바 높이(28px)만 보입니다. */
+.detail {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #eceef2;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+/* 핸들은 시트 맨 위 흰 영역에 얹힙니다 — 카드 사이 회색 띠와 섞이면 안 됩니다. */
+.detail__grip {
+  flex: none;
+  background: #fff;
+  padding-top: 8px;
+}
+
+.detail__handle {
+  display: block;
+  width: 48px;
+  height: 5px;
+  border-radius: 2.5px;
+  background: #d9dce1;
+  margin: 0 auto;
+}
+
+.detail__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 8px;
+}
+
+/* 카드 사이 8px 회색 띠 */
+.card {
+  background: #fff;
+  padding: 16px 16px;
+}
+
+.card:first-child {
+  padding-top: 13px;
+}
+
+.card + .card {
+  margin-top: 8px;
+}
+
+.eyebrow {
+  color: var(--orange);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.addr {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+
+.addr-sub {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 0;
+  color: var(--ink);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.addr-sub > span {
+  flex: 1;
+}
+
+.addr-sub > .copy {
+  flex: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  padding-top: 2px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.btn-line {
+  flex: 1;
+  height: 48px;
+  border: 1px solid #d8dbe2;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #fff;
+}
+
+.btn-line--sm {
+  flex: none;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+.label {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.value {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  margin: 4px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.value--lg {
+  font-size: 17px;
+  line-height: 25px;
+}
+
+.value--plain {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  margin: 4px 0 0;
+}
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border-radius: 8px;
+  height: 46px;
+  padding: 0 12px;
+  margin: 16px 0 0;
+}
+
+.amount-row__label {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.amount-row__value {
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: auto;
+}
+
+.badge {
+  flex: none;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge--cash {
+  background: var(--teal);
+}
+
+.badge--card {
+  background: var(--magenta);
+}
+
+/* 잔여 금액 안내 — 결제 바 위, 가운데 (Figma 882:82620) */
+.warn-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #f5822a;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+/* 하단 결제 바 — 프라이머리 320×56, 그 아래 텍스트 버튼 320×36 */
+.paybar {
+  flex: none;
+  background: #fff;
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.btn-pay {
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.btn-pay:disabled {
+  background: #c7cdd8;
+}
+
+.paybar__alt {
+  display: block;
+  width: 100%;
+  height: 36px;
+  text-align: center;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ═══════════════ 시트 · 얼럿 ═══════════════ */
+
+.dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 18px 16px 22px;
+  animation: sheet-up 0.22s ease-out;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(18px);
+    opacity: 0.5;
+  }
+}
+
+.sheet__x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  font-size: 17px;
+}
+
+.sheet__title {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+
+.sheet__amount-label {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.sheet__amount-label {
+  line-height: 22px;
+}
+
+.sheet__amount {
+  text-align: center;
+  font-size: 29px;
+  line-height: 38px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px;
+}
+
+.opt {
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  background: #eff3f9;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.opt:last-of-type {
+  margin-bottom: 0;
+}
+
+/* 카드 결제 시트 — Figma 882:82315.
+ * 시트 236 / 제목 24부터 / 박스 320×86 / 카드 직접 입력 320×48 */
+.sheet--method {
+  padding: 36px 20px 40px;
+}
+
+.sheet--method .sheet__title {
+  margin: 0 0 16px;
+  line-height: 22px;
+}
+
+.sheet--method .sheet__x {
+  top: 34px;
+  right: 16px;
+}
+
+.sheet--card {
+  padding: 24px 20px 16px;
+}
+
+.sheet--card .sheet__title {
+  margin: 0 0 32px;
+  line-height: 22px;
+}
+
+.sheet--card .sheet__x {
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.opt--accent {
+  width: 100%;
+  height: 86px;
+  border-radius: 10px;
+  background: var(--blue-weak);
+  color: var(--blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.opt--accent__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.opt__sub {
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.opt-link {
+  display: block;
+  width: 100%;
+  height: 48px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+/* 얼럿 */
+
+.alert {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  right: 24px;
+  transform: translateY(-50%);
+  z-index: 11;
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px 18px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.alert__x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: var(--ink-3);
+  font-size: 16px;
+}
+
+.alert__title {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  padding-right: 20px;
+}
+
+.alert__body {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0 0 18px;
+}
+
+.alert__btns {
+  display: flex;
+  gap: 8px;
+}
+
+.alert__btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 700;
+  background: var(--blue-weak);
+  color: var(--blue);
+}
+
+.alert__btn--primary {
+  background: var(--blue);
+  color: #fff;
+}
+
+/* ═══════════════ 분할 결제 시트 ═══════════════ */
+
+.split__total {
+  text-align: center;
+  font-size: 14.5px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.split__remain {
+  text-align: center;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--blue);
+  margin: 0;
+}
+
+.split__clear {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #c9ced8;
+  color: #fff;
+  font-size: 11px;
+  font-style: normal;
+  vertical-align: 4px;
+  margin-left: 6px;
+}
+
+.split__hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 2px 0 14px;
+}
+
+.split__input {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 4px;
+  color: var(--ink-3);
+  min-height: 36px;
+}
+
+.split__input.is-filled {
+  color: var(--ink);
+}
+
+.split__caret {
+  display: inline-block;
+  width: 2px;
+  height: 24px;
+  background: var(--blue);
+  vertical-align: -3px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.split__err {
+  text-align: center;
+  font-size: 12px;
+  color: #d84315;
+  margin: 0 0 4px;
+  min-height: 16px;
+}
+
+.split__pad {
+  border-radius: 12px;
+}
+
+.quick {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 10px 0 12px;
+}
+
+.quick__btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #d8dbe2;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.keypad__key {
+  height: 46px;
+  font-size: 20px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+}
+
+.split__btns {
+  display: flex;
+  gap: 8px;
+}
+
+.split__btn {
+  flex: 1;
+  height: 50px;
+  border-radius: 10px;
+  background: #f1f4f9;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--ink-3);
+}
+
+.split__btn.is-on {
+  background: var(--blue-weak);
+  color: var(--blue);
+}
+
+/* ═══════════════ 결제 진행중 ═══════════════ */
+
+.progress {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+}
+
+/* Figma 882:82316 — 178×158, 스피너 40, 문구 상단에서 96 */
+.progress__card {
+  width: 178px;
+  height: 158px;
+  background: #fff;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.spinner {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  border: 4px solid transparent;
+  border-top-color: var(--blue);
+  border-right-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.progress__label {
+  position: absolute;
+  top: 96px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ═══════════════ 완료 화면 ═══════════════ */
+
+.headsup {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  right: 10px;
+  z-index: 12;
+  background: #fff;
+  border-radius: 14px;
+  padding: 13px 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  animation: drop 0.25s ease-out;
+}
+
+@keyframes drop {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+}
+
+.headsup__t {
+  font-size: 13.5px;
+  font-weight: 800;
+  margin: 0 0 3px;
+}
+
+.headsup__b {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.done-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 20px 16px 18px;
+}
+
+.done-sheet__kind {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.done-sheet__t {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 3px 0 2px;
+}
+
+.done-sheet__amt {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+}
+
+.mission {
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+  margin-bottom: 16px;
+}
+
+.mission__h {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.mission__row {
+  display: flex;
+  align-items: center;
+  background: var(--blue-weak);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+
+.mission__row span {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.wx {
+  position: absolute;
+  top: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 6px 13px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(20, 24, 35, 0.14);
+  white-space: nowrap;
+}
+
+/* 토스트 */
+
+.toast {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 100px;
+  z-index: 15;
+  background: rgba(28, 32, 40, 0.92);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  animation: drop 0.22s ease-out;
+}
+
+/* ═══════════════ KIS Pay 앱 ═══════════════ */
+
+.kis {
+  position: absolute;
+  inset: 0;
+  background: #f2f3f7;
+  display: flex;
+  flex-direction: column;
+}
+
+.kis__status {
+  flex: none;
+  height: 24px;
+  background: #5b5fc7;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.kis__bar {
+  flex: none;
+  height: 50px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  border-bottom: 1px solid #eceef3;
+}
+
+.kis__x {
+  position: absolute;
+  right: 16px;
+  color: var(--ink-2);
+  font-size: 17px;
+}
+
+.kis__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 20px;
+}
+
+.kis__card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px 15px 12px;
+  margin-bottom: 18px;
+}
+
+.kis__shop {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+
+.kis__field {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 0 0 2px;
+}
+
+.kis__amount {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 4px;
+  border-bottom: 2px solid #5b5fc7;
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+}
+
+.kis__amount b {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.kis__amount i {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.kis__select {
+  height: 40px;
+  border: 1px solid #dfe2ea;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+.kis__select::after {
+  content: '▾';
+  margin-left: auto;
+  color: var(--ink-3);
+}
+
+.kis__line {
+  display: flex;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  padding: 3px 0;
+  border-top: 1px solid #f0f2f6;
+}
+
+.kis__line b {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.kis__h {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 9px;
+}
+
+.kis__grid {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 4px;
+}
+
+.kis__way {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.kis__way svg {
+  width: 30px;
+  height: 30px;
+}
+
+.kis__done {
+  text-align: center;
+  padding: 26px 16px;
+}
+
+.kis__done-badge {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 12px;
+}
+
+/* KIS Pay 결제 화면 이동 (1342:124984) */
+.kis__loading {
+  flex: 1;
+  background: #fff;
+  position: relative;
+  padding-top: 110px;
+  text-align: center;
+}
+
+.kis__logo {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0;
+  color: #1c1c1e;
+}
+
+.kis__logo b {
+  color: #5b5fc7;
+}
+
+.kis__loading-mid {
+  position: absolute;
+  top: 46%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.spinner--kis {
+  position: static;
+  margin: 0 auto 14px;
+  border-top-color: #5b5fc7;
+  border-right-color: #5b5fc7;
+}
+
+.kis__loading-t {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.kis__loading-s {
+  position: absolute;
+  top: 56%;
+  left: 0;
+  right: 0;
+  font-size: 13px;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* 카메라 결제 (1342:124986) */
+.cam {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.cam__status {
+  flex: none;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 10.5px;
+  color: var(--ink-2);
+  background: #f2f2f4;
+}
+
+.cam__bar {
+  flex: none;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 17px;
+  font-weight: 700;
+  background: #f2f2f4;
+}
+
+.cam__view {
+  flex: 1;
+  position: relative;
+  background: #2b3a34;
+  min-height: 0;
+}
+
+.cam__round {
+  position: absolute;
+  top: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+.cam__round--help {
+  left: 16px;
+}
+
+.cam__round--a {
+  right: 58px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #222;
+}
+
+.cam__round--b {
+  right: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #222;
+}
+
+/* 카메라를 못 쓰니 카드 도형으로 대신합니다 — 누르면 읽힌 것으로 봅니다. */
+.cam__card {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  aspect-ratio: 1.58;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #9fc4dd 0%, #7fa8c8 55%, #b9d3e4 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  display: block;
+}
+
+.cam__card-brand {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #16324a;
+  letter-spacing: 0.02em;
+}
+
+.cam__card-chip {
+  position: absolute;
+  left: 18px;
+  top: 40%;
+  width: 28px;
+  height: 21px;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #e3c977, #c9a94f);
+}
+
+.cam__card-no {
+  position: absolute;
+  left: 18px;
+  bottom: 30px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(22, 50, 74, 0.55);
+}
+
+.cam__card-visa {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 800;
+  color: #16324a;
+}
+
+.cam__guide {
+  flex: none;
+  background: #2b3a34;
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+.cam__timer {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 8px;
+}
+
+.cam__t1 {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 4px;
+}
+
+.cam__t2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.cam__ways {
+  flex: none;
+  background: #fff;
+  padding: 12px 8px 8px;
+}
+
+.cam__ways-h {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin: 0 0 10px;
+}
+
+.cam__ways-row {
+  display: flex;
+}
+
+.cam__way {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  border-left: 1px solid var(--line);
+}
+
+.cam__way:first-child {
+  border-left: 0;
+}
+
+.cam__way b {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  height: 26px;
+  display: grid;
+  place-items: center;
+}
+
+.cam__way svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* 승인 영수증 (1342:124987) */
+.rc {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #e9eaee;
+}
+
+.rc__body {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+  padding: 24px 20px 12px;
+}
+
+.rc__shop {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.rc__amt {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+.rc__amt i {
+  font-style: normal;
+  font-size: 15px;
+  margin-left: 4px;
+}
+
+.rc__kind {
+  text-align: right;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.rc__sep {
+  border-top: 1px dashed #c9ced8;
+  margin: 12px 0;
+}
+
+.rc__row {
+  display: flex;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--ink-3);
+}
+
+.rc__row b {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* 영수증을 뜯은 톱니 — 흰 종이의 아래 끝을 부채꼴로 잘라냅니다. */
+.rc__tear {
+  flex: none;
+  height: 34px;
+  background: #fff;
+  -webkit-mask-image: radial-gradient(circle at 6px 12px, transparent 6px, #000 6.5px);
+  mask-image: radial-gradient(circle at 6px 12px, transparent 6px, #000 6.5px);
+  -webkit-mask-size: 12px 34px;
+  mask-size: 12px 34px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: 0 -22px;
+  mask-position: 0 -22px;
+}
+
+.rc__foot {
+  flex: none;
+  display: flex;
+}
+
+.rc__btn {
+  flex: 1;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #b9bcc4;
+  color: #fff;
+}
+
+.rc__btn--primary {
+  background: #5b5fc7;
+}
+
+/* ═══════════════ 수행목록 · 결제 내역 · 현금영수증 ═══════════════ */
+
+.screen--plain {
+  background: #eceef2;
+}
+
+.appbar {
+  flex: none;
+  height: 52px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 17px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--line);
+}
+
+.appbar span:first-child {
+  width: 60px;
+}
+
+.appbar span:last-child {
+  width: 60px;
+  text-align: right;
+}
+
+.appbar__act {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* 메인 지도 — 지도 캡처의 `수행목록` 자리에 투명 버튼을 얹습니다 (16785:31016) */
+.map__fab {
+  position: absolute;
+  top: 32px;
+  right: 12px;
+  width: 76px;
+  height: 44px;
+  border-radius: 22px;
+  z-index: 2;
+}
+
+.map__notice {
+  position: absolute;
+  top: 88px;
+  left: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.map__finding {
+  background: rgba(58, 62, 70, 0.88);
+  color: #fff;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.map__wx {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(20, 24, 35, 0.12);
+}
+
+/* 수행목록 */
+.tl {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.tl__row {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+}
+
+/* 핀끼리 잇는 점선 */
+.tl__row::before {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dashed #d3d8e0;
+}
+
+/* 핀 — 물방울 모양에 배달/픽업 글씨 */
+.tl__pin {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  background: #b9bfca;
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  margin-top: 2px;
+}
+
+/* 핀은 기울였으니 글씨는 되돌려 세웁니다 */
+.tl__pin i {
+  font-style: normal;
+  transform: rotate(45deg);
+}
+
+.tl__pin.is-done {
+  background: var(--green);
+}
+
+.tl__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tl__body b {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--ink-3);
+  display: block;
+}
+
+.tl__row--open .tl__body b {
+  color: var(--ink);
+}
+
+.tl__body i {
+  font-style: normal;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  display: block;
+  margin-top: 2px;
+}
+
+.tl__body i.is-done {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.tl__body b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tl__chev {
+  flex: none;
+  color: var(--ink-3);
+}
+
+.tl__addr {
+  font-size: 14px;
+  line-height: 21px;
+  margin: 8px 0 0;
+}
+
+.tl__meta {
+  font-size: 12.5px;
+  line-height: 19px;
+  color: var(--ink-3);
+  margin: 8px 0 0;
+}
+
+.tl__paid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 12px 0 0;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 11px 12px;
+}
+
+.tl__paid .badge {
+  margin-left: auto;
+}
+
+.tl__pay {
+  display: inline-flex !important;
+  margin-top: 8px;
+  flex: none !important;
+}
+
+/* 아래 고정 — 오더 받기 토글 */
+.tl__foot {
+  flex: none;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--blue);
+  position: relative;
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.tl__btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tl__btns .btn-line--sm,
+.tl__row--open .btn-line--sm {
+  margin-top: 0;
+  flex: 1;
+}
+
+.tl__row--open > .tl__body > .btn-line--sm {
+  display: inline-flex;
+  margin-top: 8px;
+  flex: none;
+}
+
+/* 결제 내역 */
+.ph {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ph__sum {
+  background: #fff;
+  padding: 4px 16px;
+}
+
+.ph__sum-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ph__sum-row + .ph__sum-row {
+  border-top: 1px solid var(--line);
+}
+
+.ph__sum-row b {
+  font-size: 16px;
+}
+
+.ph__sum-row b.is-zero {
+  color: #e0413a;
+}
+
+.ph__item {
+  background: #fff;
+  margin-top: 8px;
+  padding: 14px 16px 16px;
+}
+
+.ph__item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ph__when {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ph__when i {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-left: 4px;
+}
+
+.ph__amt {
+  text-align: right;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ph__amt i {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.ph__btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ph__btns .btn-line--sm {
+  flex: 1;
+  margin-top: 0;
+}
+
+.btn-line.is-off {
+  color: var(--ink-3);
+  border-color: #e4e7ec;
+  background: #f7f8fa;
+}
+
+.btn-line.is-off svg {
+  opacity: 0.45;
+}
+
+/* 발급을 마치면 결제 건 아래에 뜨는 토스트 (882:82188). 조용히 나타나기만 합니다. */
+.ph__toast {
+  width: fit-content;
+  margin: 16px auto 0;
+  background: rgba(58, 62, 70, 0.92);
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  animation: fade-in 0.35s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* 발급번호 입력 시트 */
+.sheet--receipt {
+  padding: 22px 20px 20px;
+}
+
+.sheet--receipt .sheet__title {
+  margin: 0 0 18px;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.radio::before {
+  content: '';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #c9ced8;
+  box-sizing: border-box;
+}
+
+.radio.is-on {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.radio.is-on::before {
+  border: 6px solid var(--blue);
+}
+
+.field {
+  height: 48px;
+  border: 1px solid #d8dbe2;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  margin: 10px 0 18px;
+  font-size: 15px;
+}
+
+.field.is-filled {
+  border-color: var(--blue);
+  border-width: 1.5px;
+}
+
+.field__ph {
+  color: var(--ink-3);
+}
+
+.field__clear {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #c9ced8;
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.sheet__btns {
+  display: flex;
+  gap: 8px;
+}
+
+.sheet__btn {
+  flex: 1;
+  height: 50px;
+  border-radius: 10px;
+  background: var(--blue-weak);
+  color: var(--blue);
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.sheet__btn--go {
+  background: var(--blue);
+  color: #fff;
+}
+
+.sheet__btn--go.is-off {
+  background: #e3e6ec;
+  color: #a9afba;
+}
+
+/* KIS Pay 현금영수증 발급 화면 */
+.kis__tabs {
+  display: flex;
+  border-bottom: 1px solid #e3e5ec;
+  margin-top: 4px;
+}
+
+.kis__tabs span {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.kis__tabs span.is-on {
+  color: #5b5fc7;
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 #5b5fc7;
+}
+
+.kis__no {
+  border-bottom: 1px solid #c9ced8;
+  padding: 14px 4px;
+  margin: 8px 0 0;
+  font-size: 15px;
+}
+
+/* ═══════════════ 이지체크(KICC) 앱 ═══════════════
+ * Figma 1346:124989~124995. 부릉플러스와 달리 iOS 크롬입니다. */
+
+.ec {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.ec__status {
+  flex: none;
+  height: 34px;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 11px;
+}
+
+.ec__time {
+  background: #e8342c;
+  border-radius: 10px;
+  padding: 2px 9px;
+  font-weight: 700;
+  font-size: 11.5px;
+}
+
+.ec__bar {
+  flex: none;
+  height: 52px;
+  background: linear-gradient(#4a4a4a, #333);
+  color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.ec__home-ic {
+  font-size: 22px;
+}
+
+.ec__indicator {
+  flex: none;
+  height: 22px;
+  background: #fff;
+  position: relative;
+}
+
+.ec__indicator::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 120px;
+  height: 4px;
+  margin-left: -60px;
+  border-radius: 2px;
+  background: #111;
+}
+
+/* 회색 텍스처 배경 */
+.ec__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px 16px;
+  background: #cfcfcf;
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%);
+  background-size: 5px 5px;
+}
+
+.ec__body--keypad {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ec__head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  margin: 2px 0 10px;
+}
+
+.ec__panel {
+  background: #fff;
+  border: 1.5px solid #e0413a;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.ec__row {
+  display: flex;
+  font-size: 13px;
+  line-height: 22px;
+  color: #111;
+}
+
+.ec__row b {
+  width: 92px;
+  flex: none;
+  font-weight: 700;
+}
+
+.ec__row b::before {
+  content: '• ';
+}
+
+.ec__row span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ec__ok {
+  display: block;
+  margin: 14px 0 0 auto;
+  height: 36px;
+  padding: 0 28px;
+  background: linear-gradient(#f98c3c, #f26f21);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ec__h {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  margin: 8px 0 12px;
+  color: #111;
+}
+
+.ec__h--inline {
+  margin: 0;
+  flex: 1;
+}
+
+.ec__reader-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ec__reader-btn {
+  flex: none;
+  background: linear-gradient(#cfe3b4, #b6d493);
+  border: 1px solid #94b473;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+  color: #2c3d1c;
+}
+
+.ec__cardno {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.ec__cardno div {
+  flex: 1;
+  height: 34px;
+  background: #fff;
+  border: 1px solid #a8a8a8;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+
+.ec__cardno div.is-focus::after {
+  content: '';
+  width: 2px;
+  height: 18px;
+  background: #2b6cd4;
+  animation: blink 1s step-end infinite;
+}
+
+.ec__exp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 14px;
+}
+
+.ec__exp div {
+  width: 42px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid #a8a8a8;
+  border-radius: 3px;
+}
+
+.ec__barcode {
+  margin-left: auto;
+  width: 44px;
+  height: 32px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  background: repeating-linear-gradient(90deg, #111 0 2px, #fff 2px 4px);
+  font-size: 0;
+}
+
+.ec__notice {
+  color: #e0413a;
+  font-size: 12px;
+  line-height: 18px;
+  margin: 6px 0 0;
+}
+
+/* 보안 키패드 — 숫자 자리가 섞여 있습니다 */
+.ec__keypad {
+  margin: auto -14px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #b5b5b5;
+  gap: 1px;
+}
+
+.ec__key {
+  height: 54px;
+  background: #fff;
+  font-size: 21px;
+  font-weight: 600;
+  color: #111;
+}
+
+.ec__key--ok {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ec__key--del {
+  background: #d4d4d4;
+  font-size: 18px;
+}
+
+/* 금액 입력 */
+.ec__amt {
+  padding: 4px 0;
+}
+
+.ec__amt-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #111;
+}
+
+.ec__amt-row b {
+  width: 62px;
+  flex: none;
+  font-weight: 500;
+}
+
+.ec__amt-row.is-total b {
+  font-weight: 800;
+}
+
+.ec__input {
+  flex: 1;
+  height: 32px;
+  background: #fff;
+  border: 1px solid #b0b0b0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 0 8px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ec__amt-row.is-total .ec__input {
+  font-weight: 800;
+}
+
+.ec__input--sm {
+  flex: none;
+  width: 42px;
+}
+
+.ec__clear {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #c4c4c4;
+  color: #fff;
+  font-size: 9px;
+  font-style: normal;
+}
+
+.ec__seg {
+  display: flex;
+  gap: 4px;
+}
+
+.ec__seg i {
+  font-style: normal;
+  font-size: 12.5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  color: #888;
+}
+
+.ec__seg i.is-on {
+  background: #fff;
+  color: #111;
+  border: 1px solid #b0b0b0;
+}
+
+/* 리더기 등록 얼럿 */
+.ec__alert {
+  position: absolute;
+  top: 44%;
+  left: 26px;
+  right: 26px;
+  transform: translateY(-50%);
+  background: #f2f2f2;
+  border-radius: 12px;
+  padding: 16px 16px 0;
+  text-align: center;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.ec__alert h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #111;
+}
+
+.ec__alert p {
+  font-size: 12.5px;
+  line-height: 19px;
+  color: #444;
+  margin: 0 0 12px;
+}
+
+.ec__alert-btns {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.ec__alert-btns button {
+  flex: 1;
+  height: 44px;
+  font-size: 16px;
+  color: #0a72e8;
+}
+
+.ec__alert-btns button + button {
+  border-left: 1px solid #ccc;
+}
+
+/* 결제완료 버튼들 */
+.ec__memo {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.ec__foot {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ec__gray {
+  flex: 1;
+  height: 34px;
+  border-radius: 4px;
+  background: linear-gradient(#e8e8e8, #cfcfcf);
+  border: 1px solid #a8a8a8;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+}
+
+.ec__memo .ec__gray {
+  flex: none;
+  padding: 0 22px;
+}
+
+.ec__ok--inline {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  height: 34px;
+}
+
+/* KICC 승인 화면 (1346:124994) — 밝은 회색 */
+.kicc {
+  flex: 1;
+  background: linear-gradient(150deg, #f4f4f4, #dcdcdc 45%, #f7f7f7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.kicc__logo {
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: #d8232a;
+  font-style: italic;
+}
+
+.kicc__sub {
+  color: #555;
+  font-size: 9.5px;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.kicc__wait {
+  color: #222;
+  font-size: 15px;
+}
+
+/* 서명 화면 (1346:124993) — 앱 화면만 가로로 돕니다. 상태바는 그대로입니다.
+ * 안쪽 상자를 «높이×너비»로 잡고 90° 돌리면 바깥에 딱 맞습니다. */
+.ecl {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecl__stage {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  container-type: size;
+}
+
+.ecl__rot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100cqh;
+  height: 100cqw;
+  transform: translate(-50%, -50%) rotate(90deg);
+  background: #cfcfcf;
+  display: flex;
+  flex-direction: column;
+}
+
+.ecl__bar {
+  flex: none;
+  height: 46px;
+  background: linear-gradient(#4a4a4a, #333);
+  color: #ddd;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ecl__side {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111;
+}
+
+.ecl__pad {
+  flex: 1;
+  margin: 0 12px 12px;
+  background: #fff;
+  border: 1px solid #b0b0b0;
+  display: grid;
+  place-items: center;
+}
+
+.ecl__msg {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.ecl__msg--sign {
+  color: #888;
+}

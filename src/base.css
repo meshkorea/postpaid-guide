@@ -1,0 +1,624 @@
+/* 후불결제 연습하기 — 페이지 껍데기, 폰 프레임, 안내 배너, 탭 위치 강조 */
+
+:root {
+  --blue: #1b64da;
+  --blue-weak: #eef4fe;
+  --blue-dark: #174fad;
+  --ink: rgba(0, 0, 0, 0.87);
+  --ink-2: rgba(0, 0, 0, 0.6);
+  --ink-3: rgba(0, 0, 0, 0.4);
+  --line: #e9eaee;
+  --bg: #f4f5f7;
+  --orange: #eb5a1e;
+  --teal: #0e9694;
+  --magenta: #d33cb8;
+  --green: #13bf80;
+
+  --font: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', sans-serif;
+
+  /* 폰 프레임 기준 크기 — 안드로이드 360dp */
+  --screen-w: 360px;
+  --screen-h: 780px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #eceef2;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  /* 한글은 어절 단위로 끊어야 «(역 / 삼동)»처럼 어색하게 잘리지 않습니다. */
+  word-break: keep-all;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ───────────────────────── 무대 ───────────────────────── */
+
+.stage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+@media (max-width: 520px) {
+  .stage {
+    padding: 8px 8px 12px;
+    gap: 10px;
+  }
+}
+
+.frame {
+  position: relative;
+  /* 테두리는 화면 밖에 둡니다 — 안쪽이 디자인 기준 360×780이어야 합니다. */
+  box-sizing: content-box;
+  width: var(--screen-w);
+  height: var(--screen-h);
+  background: #fff;
+  border-radius: 30px;
+  border: 8px solid #16181d;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 18px 50px rgba(20, 24, 35, 0.28);
+  transform: scale(var(--scale, 1));
+  transform-origin: top center;
+  flex: none;
+}
+
+/* 프레임을 축소해도 아래 컨트롤이 겹치지 않도록 실제 차지하는 높이를 맞춰 둡니다. */
+.frame-slot {
+  width: calc((var(--screen-w) + 16px) * var(--scale, 1));
+  height: calc((var(--screen-h) + 16px) * var(--scale, 1));
+  flex: none;
+}
+
+/* ───────────────────────── 안내 배너 ─────────────────────────
+ * 흰 바탕에 회색 상황 한 줄 + 굵은 지시 한 줄(눌러야 할 것은 파랑),
+ * 오른쪽 위에 진행 수, 맨 위에 진행 막대. */
+
+.band {
+  position: relative;
+  z-index: 40;
+  flex: none;
+  background: #fff;
+  padding: 16px 18px 15px;
+  border-bottom: 1px solid #e9eaee;
+}
+
+.band__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e9eaee;
+}
+
+.band__bar i {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.3s ease-out;
+}
+
+.band__q {
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0 0 3px;
+  padding-right: 48px;
+}
+
+.band__count {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.35);
+  font-variant-numeric: tabular-nums;
+}
+
+.band__a {
+  font-size: 19px;
+  line-height: 27px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.band__a b {
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.band__note {
+  margin: 7px 0 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.45);
+  padding-left: 16px;
+  position: relative;
+}
+
+.band__note::before {
+  content: '!';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffb92e;
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 13px;
+  text-align: center;
+}
+
+.band.is-nudge {
+  animation: nudge 0.4s;
+}
+
+@keyframes nudge {
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+/* ───────────────────────── 화면 영역 ───────────────────────── */
+
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ─────────── 눌러야 할 곳만 남기고 화면을 덮습니다 ─────────── */
+
+.spot {
+  position: absolute;
+  z-index: 30;
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 3px var(--blue),
+    0 0 0 9999px rgba(12, 18, 30, 0.55);
+}
+
+/* 말풍선 안내 — 누르지 않고 «다음»으로 넘어가는 설명 단계 */
+.tip {
+  position: absolute;
+  z-index: 32;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 13px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tip__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tip__title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 3px;
+}
+
+.tip__desc {
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.tip__next {
+  flex: none;
+  align-self: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: #eceef2;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* 가리키는 삼각형 */
+.tip__arrow {
+  position: absolute;
+  width: 16px;
+  height: 9px;
+  background: #fff;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.tip--below .tip__arrow {
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  top: -9px;
+}
+
+.tip--above .tip__arrow {
+  bottom: -9px;
+}
+
+/* 누를 자리를 가리키는 손 */
+.hand {
+  position: absolute;
+  z-index: 31;
+  width: 46px;
+  height: 46px;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  animation: hand-tap 1.6s ease-in-out infinite;
+}
+
+@keyframes hand-tap {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  45% {
+    transform: translate(-3px, -7px);
+  }
+}
+
+/* ─────────────── 프레임 안 맨 위 컨트롤 ───────────────
+ * 기사님이 폰으로 보기 때문에 프레임 밖에 두면 엄지가 닿지 않습니다. */
+
+.topbar {
+  flex: none;
+  height: 44px;
+  background: #fff;
+  border-bottom: 1px solid #e9eaee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.topbar__btn {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  padding: 6px 0;
+}
+
+/* ───────────────────────── 표지 ─────────────────────────
+ * 쿠팡이츠 «첫 배달 체험», 배민 «연습하기» 표지와 같은 자리입니다. */
+
+.cover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #2f7ce8 0%, #1b64da 55%, #1550b4 100%);
+  padding: 30px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.cover__tag {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+}
+
+.cover__hi {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 16px 0 6px;
+}
+
+.cover__title {
+  color: #fff;
+  text-align: center;
+  font-size: 27px;
+  line-height: 1.32;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.cover__art {
+  width: 240px;
+  height: 186px;
+  /* 위아래 남는 자리를 나눠 가져 그림이 가운데에 오게 합니다. */
+  margin: auto 0;
+  flex: none;
+}
+
+/* 그림자 위에 둥둥 — 카드가 뜨는 만큼 그림자는 작아지고 옅어집니다. */
+.cover__float {
+  animation: float 3.4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.cover__shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: float-shadow 3.4s ease-in-out infinite;
+}
+
+@keyframes float-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.84);
+    opacity: 0.66;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover__float,
+  .cover__shadow {
+    animation: none;
+  }
+}
+
+.cover__opts {
+  width: 100%;
+  margin-top: auto;
+}
+
+.cover__opt {
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 10px rgba(6, 30, 70, 0.18);
+}
+
+.cover__opt .track__go,
+.cover__opt svg {
+  color: #9db9e8;
+  flex: none;
+}
+
+.cover__opt.is-done {
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.cover__check {
+  font-style: normal;
+  color: #009159;
+  font-weight: 800;
+}
+
+.cover__foot {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11.5px;
+  margin: 6px 0 0;
+  text-align: center;
+}
+
+/* ───────────────────────── 시작 모달 ─────────────────────────
+ * 목록 화면을 따로 두지 않고, 앱 화면 위에 모달로 시작합니다. */
+
+.start {
+  position: absolute;
+  z-index: 20;
+  left: 20px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border-radius: 20px;
+  padding: 26px 20px 20px;
+  text-align: center;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+}
+
+.start__icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px;
+  display: block;
+}
+
+.start__title {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+}
+
+.start__desc {
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--ink-2);
+  margin: 0 0 20px;
+}
+
+.start__notice {
+  background: #fff6e5;
+  color: #8a5a00;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 19px;
+  margin: 0 0 16px;
+}
+
+.start__notice b {
+  color: #7a4a00;
+  font-weight: 800;
+}
+
+.start__go {
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* 연습 끝 */
+
+.outro {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  padding: 24px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.outro__check {
+  width: 62px;
+  height: 62px;
+  align-self: center;
+  margin-bottom: 16px;
+}
+
+.outro__title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+}
+
+.outro__sub {
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.recap {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px 15px;
+  margin-bottom: 18px;
+}
+
+.recap__h {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.recap__li {
+  position: relative;
+  padding-left: 13px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0 0 7px;
+  color: var(--ink);
+  /* 두 줄이 되는 줄은 «있어요»만 혼자 떨어지지 않게 고르게 나눕니다. */
+  text-wrap: balance;
+}
+
+.recap__li:last-child {
+  margin-bottom: 0;
+}
+
+.recap__li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.outro__btn {
+  margin-top: 28px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+}
+
+.outro__link {
+  height: 44px;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 4px;
+}
