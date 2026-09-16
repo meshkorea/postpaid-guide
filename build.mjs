@@ -1,4 +1,4 @@
-/* src의 조각들을 dist/index.html 한 장으로 합칩니다. 외부 요청이 없는 단일 파일이라
+/* src의 조각들을 docs/index.html 한 장으로 합칩니다. 외부 요청이 없는 단일 파일이라
  * 파일만 열어도, 어디에 올려도 그대로 돕니다. */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
@@ -24,7 +24,7 @@ const html = read('src/shell.html')
   .replace('/*{{CSS}}*/', () => css)
   .replace('/*{{JS}}*/', () => js)
 
-mkdirSync(join(root, 'dist'), { recursive: true })
-writeFileSync(join(root, 'dist/index.html'), html)
+mkdirSync(join(root, 'docs'), { recursive: true })
+writeFileSync(join(root, 'docs/index.html'), html)
 
-console.log(`dist/index.html — ${(Buffer.byteLength(html) / 1024).toFixed(0)}KB`)
+console.log(`docs/index.html — ${(Buffer.byteLength(html) / 1024).toFixed(0)}KB`)

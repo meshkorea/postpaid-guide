@@ -14,7 +14,7 @@
 
 | | |
 | --- | --- |
-| 결과물 | `dist/index.html` — **단일 HTML 한 장**(약 240KB). 외부 요청 0, 지도 이미지까지 data URI로 내장 |
+| 결과물 | `docs/index.html` — **단일 HTML 한 장**(약 240KB). 외부 요청 0, 지도 이미지까지 data URI로 내장 |
 | 만들기 | `node build.mjs` |
 | 보기 | 파일을 그냥 열거나, 아무 정적 호스팅에 올리면 됩니다 |
 
@@ -56,7 +56,7 @@ src/screens.js    화면을 그리는 함수들 — state를 받아 HTML 문자�
 src/steps.js      연습 갈래와 단계 정의 (여기만 고쳐도 대부분의 수정이 됩니다)
 src/app.js        진행 엔진 — 시작 화면 → 단계 → 마무리 화면, 탭 강조, 크기 맞춤
 src/shell.html    합쳐 넣을 껍데기
-build.mjs         위 조각들을 dist/index.html 한 장으로 합칩니다
+build.mjs         위 조각들을 docs/index.html 한 장으로 합칩니다
 ```
 
 **문구·순서를 고칠 일이 가장 많으니 `src/steps.js`부터 보세요.** 한 단계는
