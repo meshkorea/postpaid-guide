@@ -17,7 +17,7 @@
 | 결과물 | `docs/index.html`(안드로이드) · `docs/ios/index.html`(아이폰) — 각각 **단일 HTML 한 장**. 외부 요청 0, 지도 이미지까지 data URI로 내장 |
 | 만들기 | `node build.mjs` — 두 장을 한 번에 만듭니다 |
 | 보기 | 파일을 그냥 열거나, 아무 정적 호스팅에 올리면 됩니다 |
-| 올린 곳 | https://meshkorea.github.io/postpaid-guide/ · https://meshkorea.github.io/postpaid-guide/ios/ |
+| 올린 곳 | https://meshkorea.github.io/practice/ · https://meshkorea.github.io/practice/ios/ |
 
 ## 연습 갈래
 
