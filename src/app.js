@@ -18,11 +18,14 @@ function fit() {
   const w = window.innerWidth
   const h = window.innerHeight
   const phone = w <= 520
-  const sideGap = phone ? 8 : 32
+  /* 폰에서는 CSS가 화면을 꽉 채우므로 축소하지 않습니다. */
+  if (phone) {
+    document.documentElement.style.setProperty('--scale', '1')
+    return
+  }
   // 컨트롤이 프레임 안으로 들어와서 위아래 여백만 빼면 됩니다.
-  const bottomGap = phone ? 24 : 56
   /* 테두리 8px이 양쪽에 붙으므로 바깥 크기는 376×796입니다. */
-  const scale = Math.min((w - sideGap * 2) / 376, (h - bottomGap) / 796, phone ? 1.25 : 1)
+  const scale = Math.min((w - 64) / 376, (h - 56) / 796, 1)
   document.documentElement.style.setProperty('--scale', String(Math.max(scale, 0.42)))
 }
 

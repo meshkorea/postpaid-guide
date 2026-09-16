@@ -66,12 +66,6 @@ button {
   padding: 16px;
 }
 
-@media (max-width: 520px) {
-  .stage {
-    padding: 8px 8px 12px;
-    gap: 10px;
-  }
-}
 
 .frame {
   position: relative;
@@ -96,6 +90,31 @@ button {
   width: calc((var(--screen-w) + 16px) * var(--scale, 1));
   height: calc((var(--screen-h) + 16px) * var(--scale, 1));
   flex: none;
+}
+
+/* 진짜 폰에서 볼 때는 테두리가 자리만 차지합니다. 쿠팡이츠·배민 «연습하기»도
+ * PC에서는 폰 모양으로, 폰에서는 화면을 꽉 채웁니다. 기사님은 폰으로 보십니다. */
+@media (max-width: 520px) {
+  .stage {
+    padding: 0;
+    gap: 0;
+  }
+
+  .frame-slot {
+    width: 100%;
+    height: 100dvh;
+  }
+
+  .frame {
+    width: 100%;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    /* 홈 인디케이터에 버튼이 가리지 않게 합니다 (viewport-fit=cover). */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
 /* ───────────────────────── 안내 배너 ─────────────────────────
