@@ -571,10 +571,12 @@ button {
 
 /* 연습 끝 */
 
+/* 마무리는 «앱 화면»이 아니라 «연습 가이드»의 화면입니다. 표지와 같은 파란 바탕을
+ * 써서, 파란 화면이면 가이드고 흰 화면이면 실제 앱이라는 규칙을 만듭니다. */
 .outro {
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: linear-gradient(180deg, #2f7ce8 0%, #1b64da 55%, #1550b4 100%);
   padding: 24px 22px 22px;
   display: flex;
   flex-direction: column;
@@ -595,18 +597,24 @@ button {
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 0 0 8px;
+  color: #fff;
 }
 
 .outro__sub {
   text-align: center;
   font-size: 14px;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.8);
   margin: 0 0 22px;
   line-height: 1.5;
 }
 
+/* 초록 동그라미는 파란 바탕에서 탁해 보여 흰색으로 바꿉니다. */
+.outro__check circle {
+  fill: #fff;
+}
+
 .recap {
-  background: var(--bg);
+  background: #fff;
   border-radius: 12px;
   padding: 14px 15px;
   margin-bottom: 18px;
@@ -650,8 +658,8 @@ button {
   margin-top: 28px;
   height: 52px;
   border-radius: 12px;
-  background: var(--blue);
-  color: #fff;
+  background: #fff;
+  color: var(--blue);
   font-size: 16px;
   font-weight: 700;
   width: 100%;
@@ -659,7 +667,7 @@ button {
 
 .outro__link {
   height: 44px;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
   font-weight: 600;
   width: 100%;
