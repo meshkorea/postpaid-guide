@@ -2,9 +2,9 @@
  * 파일만 열어도, 어디에 올려도 그대로 돕니다.
  *
  * 연습이 앞으로 늘어날 수 있어 갈래마다 폴더를 둡니다.
- *   docs/postpaid/index.html      후불결제 · 안드로이드
- *   docs/postpaid/ios/index.html  후불결제 · 아이폰
- *   docs/index.html               연습 목록 (지금은 후불결제 하나)
+ * 안드로이드와 아이폰은 흐름이 아예 달라서 한쪽을 다른 쪽 안에 넣지 않습니다.
+ *   docs/postpaid-android/index.html  후불결제 · 안드로이드
+ *   docs/postpaid-ios/index.html      후불결제 · 아이폰
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
@@ -45,7 +45,7 @@ function build({ out, css, js, title, desc }) {
 
 /* ── 안드로이드 ────────────────────────────────────────── */
 build({
-  out: 'docs/postpaid/index.html',
+  out: 'docs/postpaid-android/index.html',
   css: ['src/base.css', 'src/screens.css'],
   js: ['src/icons.js', 'src/screens.js', 'src/steps.js', 'src/app.js'],
   title: '후불결제 연습하기',
@@ -56,7 +56,7 @@ build({
  * icons·screens는 안드로이드 것을 먼저 읽고 그 위에 iOS 것을 얹습니다.
  * steps는 갈래가 아예 달라서 iOS 것만 씁니다. */
 build({
-  out: 'docs/postpaid/ios/index.html',
+  out: 'docs/postpaid-ios/index.html',
   css: ['src/base.css', 'src/screens.css', 'src-ios/screens.css'],
   js: [
     'src/icons.js',
@@ -69,8 +69,3 @@ build({
   title: '후불결제 연습하기 (아이폰)',
   desc: '부릉플러스 기사앱 후불결제를 손으로 따라 해보는 연습 화면입니다(아이폰). 현금·카드(이지체크)·QR 간편·분할 결제를 단계별로 익힐 수 있어요.',
 })
-
-/* ── 연습 목록 ────────────────────────────────────────
- * 연습이 늘어나면 src/index.html의 목록에 한 줄 더 넣으면 됩니다. */
-writeFileSync(join(root, 'docs/index.html'), read('src/index.html'))
-console.log('docs/index.html — 연습 목록')

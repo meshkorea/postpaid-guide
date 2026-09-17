@@ -14,10 +14,10 @@
 
 | | |
 | --- | --- |
-| 결과물 | `docs/postpaid/index.html`(안드로이드) · `docs/postpaid/ios/index.html`(아이폰) — 각각 **단일 HTML 한 장**. 외부 요청 0, 지도 이미지까지 data URI로 내장 |
+| 결과물 | `docs/postpaid-android/index.html` · `docs/postpaid-ios/index.html` — 각각 **단일 HTML 한 장**. 외부 요청 0, 지도 이미지까지 data URI로 내장 |
 | 만들기 | `node build.mjs` — 두 장을 한 번에 만듭니다 |
 | 보기 | 파일을 그냥 열거나, 아무 정적 호스팅에 올리면 됩니다 |
-| 올린 곳 | https://meshkorea.github.io/practice/postpaid/ · https://meshkorea.github.io/practice/postpaid/ios/ |
+| 올린 곳 | https://meshkorea.github.io/practice/postpaid-android/ · https://meshkorea.github.io/practice/postpaid-ios/ |
 
 ## 연습 갈래
 
@@ -28,7 +28,7 @@
 | 3 | 분할 결제 | 14 | 다른 방법으로 결제 → 분할 시트(키패드) → 현금 20,000원 → **배달지 화면 복귀(잔여 금액)** → 다시 결제하기 → 남은 38,500원 카드 |
 | 4 | 현금영수증 발급 | 9 | **지도에서 `수행목록`** → 배달 건의 결제내역 → 발급번호 입력(개인/사업자) → **KIS Pay 현금영수증** → 발행 → 영수증 → **`발급중` 로딩** → 결제 내역(버튼 꺼짐 + 토스트) |
 
-## 아이폰(iOS) — `docs/postpaid/ios/index.html`
+## 아이폰(iOS) — `docs/postpaid-ios/index.html`
 
 아이폰은 결제 흐름이 달라서 **따로 한 장을 더** 만듭니다. 갈리는 곳은 세 군데입니다.
 
@@ -85,13 +85,15 @@ src/screens.js    화면을 그리는 함수들 — state를 받아 HTML 문자�
 src/steps.js      연습 갈래와 단계 정의 (여기만 고쳐도 대부분의 수정이 됩니다)
 src/app.js        진행 엔진 — 시작 화면 → 단계 → 마무리 화면, 탭 강조, 크기 맞춤
 src/shell.html    합쳐 넣을 껍데기
-src/index.html    연습 목록 (docs/index.html로 그대로 복사됩니다)
 src-ios/          아이폰에서만 다른 화면·아이콘·단계
-build.mjs         위 조각들을 docs/postpaid/… 아래 한 장씩으로 합칩니다
+build.mjs         위 조각들을 docs/<갈래>/index.html 한 장씩으로 합칩니다
 ```
 
-연습이 늘어나면 `docs/<갈래>/`를 하나 더 만들고 `src/index.html` 목록에
-줄을 한 줄 더하면 됩니다. 주소는 `…/practice/<갈래>/`가 됩니다.
+연습이 늘어나면 `build.mjs`에 `build({ out: 'docs/<갈래>/index.html', … })`를
+한 덩어리 더하면 됩니다. 주소는 `…/practice/<갈래>/`가 됩니다.
+
+**안드로이드와 아이폰은 서로 다른 갈래로 나란히 둡니다.** 흐름이 아예 달라서
+한쪽을 다른 쪽 안에 넣으면 기사님이 헷갈립니다.
 
 **문구·순서를 고칠 일이 가장 많으니 `src/steps.js`부터 보세요.** 한 단계는
 
