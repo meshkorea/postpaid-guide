@@ -302,6 +302,89 @@ button {
     0 0 0 9999px rgba(12, 18, 30, 0.55);
 }
 
+/* ── 고객이 건네며 말하는 장면 ───────────────────────────
+ * 강조 링(z-index 30)이 만드는 어둠 위에 떠야 밝게 보이므로 그보다 위에 둡니다.
+ * 앱 화면도 함께 보여야 하므로 크게 키우지 않고, 아래 결제 버튼을 가리지
+ * 않도록 위쪽에 둡니다. pointer-events는 꺼서 탭을 막지 않습니다. */
+.scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 33;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* 어둠이 깔릴 때까지 숨어 있다가(placeSpot이 is-in을 붙입니다) 떠오릅니다. */
+  opacity: 0;
+}
+
+.scene.is-in {
+  animation: scene-in 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) 0.12s both;
+}
+
+/* 그림과 말풍선을 한 덩어리로 세로로 쌓습니다. 말풍선을 흐름에 두면
+ * 글자가 길어 두 줄이 돼도 사람과의 간격이 그대로 유지됩니다. */
+.scene__in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 290px;
+}
+
+.scene__fig {
+  display: block;
+  width: 277px;
+  height: auto;
+  margin: 0;
+  filter: drop-shadow(0 8px 16px rgba(8, 16, 34, 0.45));
+}
+
+/* 말풍선은 머리 오른쪽 위에 띄우고 꼬리로 사람을 가리킵니다.
+ * 몸 위에 겹치면 그림이 지저분해집니다. */
+.scene__say {
+  position: relative;
+  /* 꼬리 7px + 원 위까지 4px (그림 위 여백 1칸은 빼고) */
+  margin: 0 0 10px;
+  max-width: 180px;
+  background: #fff;
+  color: var(--ink);
+  /* 꼬리를 아래 가운데에 따로 두므로 네 모서리를 고르게 둥글립니다.
+   * 한 모서리만 각지면 꼬리가 둘처럼 보입니다. */
+  border-radius: 15px;
+  padding: 9px 13px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.38;
+  box-shadow: 0 6px 16px rgba(8, 16, 34, 0.34);
+}
+
+/* 사람이 그림 한가운데 있으므로 꼬리도 가운데에서 내려옵니다. */
+.scene__say::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -7px;
+  bottom: -7px;
+  border: 7px solid transparent;
+  border-bottom: 0;
+  border-top-color: #fff;
+}
+
+/* .scene이 평소 숨어 있으므로(opacity 0) 끝 상태를 반드시 적어야 합니다.
+ * 안 적으면 원래 값인 «보이지 않음»으로 되돌아갑니다. */
+@keyframes scene-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 10px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
 /* 말풍선 안내 — 누르지 않고 «다음»으로 넘어가는 설명 단계 */
 .tip {
   position: absolute;
@@ -3403,6 +3486,71 @@ const KIS_WAY = {
   apple: `<svg viewBox="0 0 30 30" fill="none"><ellipse cx="15" cy="15" rx="10" ry="7" stroke="#4a4f63" stroke-width="1.6"/><circle cx="15" cy="15" r="3" fill="#4a4f63"/></svg>`,
 }
 
+/* ── 고객이 결제 수단을 건네는 그림 ───────────────────────
+ * 연습 첫 단계에서 «지금 무슨 상황인지»를 글보다 먼저 잡아줍니다.
+ * 몸통 안쪽(x=86)에서 팔이 나와 이음매가 보이지 않고, 손은 팔 끝에 놓아
+ * 물건 모서리를 쥔 것처럼 겹칩니다. */
+
+const HELD = {
+  card: `<g transform="rotate(-14 154 107)">
+    <rect x="126" y="90" width="56" height="34" rx="5" fill="#fff"/>
+    <rect x="126" y="98" width="56" height="8" fill="#1b64da"/>
+    <rect x="132" y="112" width="17" height="6" rx="3" fill="#cdd9ee"/>
+  </g>`,
+
+  cash: `<g transform="rotate(-12 154 107)">
+    <rect x="127" y="91" width="54" height="32" rx="4" fill="#dff2e6" stroke="#8ecfae" stroke-width="2"/>
+    <circle cx="154" cy="107" r="9.5" fill="#fff" stroke="#8ecfae" stroke-width="2"/>
+    <text x="154" y="112" text-anchor="middle" font-size="13" font-weight="800" fill="#2f9e63">₩</text>
+  </g>`,
+
+  /* 폰은 세로로 길어 손이 옆면을 쥡니다 — 왼쪽 모서리를 손 위치에 맞춥니다. */
+  qr: `<g transform="rotate(-10 150 104)">
+    <rect x="127" y="78" width="40" height="55" rx="7" fill="#2b2e33"/>
+    <rect x="132" y="85" width="30" height="41" rx="3" fill="#fff"/>
+    <path d="M136 90h8v8h-8zM150 90h8v8h-8zM136 104h8v8h-8z" fill="#1b2432"/>
+    <path d="M151 105h3v3h-3zM156 105h3v3h-3zM151 110h3v3h-3zM156 110h3v3h-3zM136 116h8v3h-8zM150 116h8v3h-8z" fill="#1b2432"/>
+  </g>`,
+
+  /* 분할 — 지폐를 뒤에, 카드를 앞에 펼쳐 쥡니다 */
+  split: `<g transform="rotate(-26 152 100)">
+    <rect x="125" y="84" width="52" height="31" rx="4" fill="#dff2e6" stroke="#8ecfae" stroke-width="2"/>
+    <circle cx="151" cy="99.5" r="8.5" fill="#fff" stroke="#8ecfae" stroke-width="2"/>
+    <text x="151" y="104" text-anchor="middle" font-size="12" font-weight="800" fill="#2f9e63">₩</text>
+  </g>
+  <g transform="rotate(-6 154 110)">
+    <rect x="128" y="94" width="54" height="33" rx="5" fill="#fff" stroke="#e2e6ee" stroke-width="1.5"/>
+    <rect x="128" y="102" width="54" height="8" fill="#1b64da"/>
+    <rect x="134" y="116" width="16" height="6" rx="3" fill="#cdd9ee"/>
+  </g>`,
+}
+
+/** 고객 그림 — held에 card·cash·qr·split 중 하나를 줍니다. */
+function customerArt(held) {
+  return `<svg class="scene__fig" viewBox="-66 49 256 103" fill="none" aria-hidden="true">
+    <defs><clipPath id="vr-cust-clip"><circle cx="62" cy="100" r="50"/></clipPath></defs>
+    <circle cx="62" cy="100" r="50" fill="#f2f5fb"/>
+    <g clip-path="url(#vr-cust-clip)">
+      <path d="M53 88h18v22H53z" fill="#eab894"/>
+      <path d="M20 152v-6c0-24 19-41 42-41s42 17 42 41v6z" fill="#3f6fd8"/>
+      <path d="M49 108c3 8 7 12 13 12s10-4 13-12c-4-2-8-3-13-3s-10 1-13 3z" fill="#5a86e4"/>
+    </g>
+    <circle cx="62" cy="74" r="22" fill="#f7d3b4"/>
+    <ellipse cx="42.5" cy="77" rx="3.8" ry="4.8" fill="#f2c6a4"/>
+    <ellipse cx="81.5" cy="77" rx="3.8" ry="4.8" fill="#f2c6a4"/>
+    <path d="M39.4 68A23 23 0 0 1 84.6 68Q62 74 39.4 68Z" fill="#3c3a44"/>
+    <circle cx="54.5" cy="75" r="2.7" fill="#3c3a44"/>
+    <circle cx="70.5" cy="75" r="2.7" fill="#3c3a44"/>
+    <path d="M51.6 69.8c1.7-1.4 4-1.4 5.7 0" stroke="#3c3a44" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M67.7 69.8c1.7-1.4 4-1.4 5.7 0" stroke="#3c3a44" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M62.5 78v4.4c0 1-.9 1.7-2 1.7" stroke="#d99a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M57.4 88.4c2.5 2.7 6.8 2.7 9.2 0" stroke="#c07a52" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M84 124C99 127 113 121 122 112" stroke="#3f6fd8" stroke-width="15" stroke-linecap="round"/>
+    ${HELD[held] || HELD.card}
+    <ellipse cx="122" cy="110" rx="8" ry="7.2" transform="rotate(-18 122 110)" fill="#f7d3b4"/>
+  </svg>`
+}
+
 /* iOS에만 있는 아이콘. src/icons.js의 ICON에 얹습니다.
  *
  * 결제수단 아이콘들(현금·카드·분할)과 같은 식으로 그립니다 — 16px, 옅은 파랑
@@ -4158,8 +4306,8 @@ const SCREENS = {
  *   1. KIS Pay가 없습니다 — 카드는 곧장 이지체크로 넘어갑니다
  *   2. 결제수단 시트에 «QR 간편»이 하나 더 있습니다
  *   3. 분할 결제 시트 아래에 QR 버튼이 하나 더 붙습니다
- *   4. 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고, 배달지 화면으로
- *      나가지 않고 잔액이 줄어든 분할 화면에 그대로 남습니다
+ *   4. 분할 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고, 시트가 닫히며
+ *      남은 금액이 찍힌 배달지 화면으로 돌아옵니다
  *
  * 이지체크(KICC)는 두 OS가 같은 앱이라 src/screens.js 것을 그대로 씁니다.
  */
@@ -4249,8 +4397,8 @@ function splitSheetIos(s) {
 }
 
 /* ── 한 회차를 받으면 잠깐 뜨는 «결제 완료» ─────────────────
- * 1초쯤 떴다 저절로 사라지고 분할 화면으로 돌아갑니다. 현금으로 받은
- * 회차에는 M캐시 잔액이 바뀌었다는 알림이 위에 함께 뜹니다. */
+ * 1초쯤 떴다 저절로 사라지고, 시트가 닫히며 남은 금액이 찍힌 배달지 화면으로
+ * 돌아갑니다. 현금으로 받은 회차에는 M캐시 잔액이 바뀌었다는 알림이 함께 뜹니다. */
 
 function splitDoneIos(s) {
   const label = { cash: '현금 결제 완료', card: '카드 결제 완료', qr: '간편 결제 완료' }[s.paidWith || 'cash']
@@ -4360,8 +4508,8 @@ Object.assign(SCREENS, {
  * 안드로이드와 갈리는 곳만 적어둡니다.
  *   · KIS Pay가 없습니다. 카드는 «카드 결제하기»를 누르면 곧장 이지체크로 넘어갑니다
  *   · 결제수단에 «QR 간편»이 있습니다. 고객 폰의 바코드·QR을 카메라로 읽습니다
- *   · 분할 결제는 한 회차를 받아도 배달지 화면으로 나가지 않고,
- *     «결제 완료»가 잠깐 떴다 사라진 뒤 잔액이 줄어든 분할 화면에 그대로 남습니다
+ *   · 분할 결제는 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고,
+ *     바텀시트가 닫히며 남은 금액이 찍힌 배달지 화면으로 돌아옵니다
  */
 
 const TOTAL = 58500
@@ -4377,6 +4525,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'cash', total: TOTAL },
         q: '고객에게 상품을 전달하고 현금을 받았어요',
+        scene: { held: 'cash', say: '현금으로 낼게요' },
         a: '<b>현금 58,500원 결제하기</b>를 눌러주세요',
         target: '#cta',
       },
@@ -4418,6 +4567,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
         q: '후불카드 오더예요. 고객이 카드를 줬어요',
+        scene: { held: 'card', say: '카드로 결제할게요' },
         a: '<b>카드 58,500원 결제하기</b>를 눌러주세요',
         note: '아이폰은 누르면 바로 이지체크 앱이 열려요',
         target: '#cta',
@@ -4517,6 +4667,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
         q: '고객이 카드 대신 <b>페이로 내겠다</b>고 해요',
+        scene: { held: 'qr', say: '페이로 결제할게요' },
         a: '<b>다른 방법으로 결제</b>를 눌러주세요',
         target: '#alt',
       },
@@ -4607,6 +4758,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'cash', total: TOTAL },
         q: '고객이 2만원은 현금, 나머지는 카드로 내겠대요',
+        scene: { held: 'split', say: '2만원은 현금으로 낼게요' },
         a: '<b>다른 방법으로 결제</b>를 눌러주세요',
         target: '#alt',
       },
@@ -4644,8 +4796,17 @@ const TRACKS = [
         state: { order: 'cash', total: TOTAL, typed: 20000, paidWith: 'cash' },
         q: '현금 20,000원을 받았어요',
         a: '잠깐 뜨고 저절로 사라져요',
-        note: '아이폰은 배달지 화면으로 나가지 않고 분할 화면에 그대로 남아요',
+        note: '잠시 뒤 시트가 닫히고 배달지 화면으로 돌아와요',
         auto: 1500,
+      },
+      {
+        screen: 'detail',
+        state: { order: 'cash', total: TOTAL, remain: 38500 },
+        q: '20,000원을 받고 배달지 화면으로 돌아왔어요',
+        scene: { held: 'card', say: '나머지는 카드로 할게요' },
+        a: '<b>38,500원 결제하기</b>를 눌러주세요',
+        note: '버튼에는 남은 금액만 떠요',
+        target: '#cta',
       },
       {
         screen: 'splitSheet',
@@ -4729,7 +4890,7 @@ const TRACKS = [
     ],
     recap: [
       '회차마다 <b>현금·카드·QR</b>을 따로 고를 수 있어요',
-      '한 회차를 받아도 <b>분할 화면에 그대로</b> 남아요',
+      '한 회차를 받으면 <b>배달지 화면</b>으로 돌아와요',
       '다음 회차는 <b>남은 금액이 채워져</b> 있어요',
     ],
   },
@@ -4939,6 +5100,7 @@ function renderStep() {
     ${band({ ...step, now: app.index, total: app.track.steps.length })}
     <div class="viewport${switched ? ' is-switching' : ''}" id="vp">
       ${SCREENS[step.screen](state)}
+      ${step.scene ? scene(step.scene) : ''}
     </div>`
 
   clearTimeout(autoTimer)
@@ -4947,15 +5109,29 @@ function renderStep() {
     return
   }
   /* 시트·얼럿이 올라오는 동안 위치를 재면 강조 링이 어긋나므로, 끝나기를 기다립니다.
-   * 스피너처럼 끝나지 않는 애니메이션은 빼고 봅니다. */
+   * 스피너처럼 끝나지 않는 애니메이션은 빼고 봅니다.
+   * 글꼴도 기다립니다 — 늦게 오면 글자가 다시 흘러 버튼이 밀리는데, 그 전에 재면
+   * 링이 엉뚱한 곳에 붙습니다. */
   const vp = $('#vp')
   const settling = vp
     .getAnimations({ subtree: true })
     .filter((a) => a.effect?.getTiming().iterations !== Infinity)
     .map((a) => a.finished.catch(() => {}))
+  if (document.fonts?.status !== 'loaded') settling.push(document.fonts.ready.catch(() => {}))
   if (settling.length) Promise.all(settling).then(() => app.view === 'step' && placeSpot())
   else placeSpot()
   vp.addEventListener('click', onTap, true)
+}
+
+/**
+ * 고객이 무엇을 내밀며 뭐라고 하는지 — 첫 단계에서 상황을 먼저 보여줍니다.
+ * 어두워진 자리 위에 뜨고, 탭은 막지 않아 아래 버튼을 그대로 누를 수 있습니다.
+ */
+function scene({ held, say }) {
+  return `<div class="scene"><div class="scene__in">
+    <p class="scene__say">${say}</p>
+    ${customerArt(held)}
+  </div></div>`
 }
 
 /** 눌러야 할 곳에 파란 테두리와 손 모양을 올려둡니다. */
@@ -4986,6 +5162,10 @@ function placeSpot() {
     'beforeend',
     `<div class="spot" style="left:${x - 3}px;top:${y - 3}px;width:${w + 6}px;height:${h + 6}px"></div>`,
   )
+
+  /* 고객 그림은 어둠이 깔린 뒤에 떠오릅니다. 같이 나타나면 무엇이 바뀐 건지
+   * 눈이 못 따라갑니다. */
+  vp.querySelector('.scene')?.classList.add('is-in')
 
   /* 누르지 않고 설명만 하는 단계는 손 대신 말풍선을 띄우고 `다음`으로 넘어갑니다. */
   if (step.tip) {
@@ -5155,7 +5335,12 @@ function render() {
   bindTopbar()
 }
 
-window.addEventListener('resize', fit)
+/* 창 크기가 바뀌면 글자가 다시 흘러 버튼이 움직이므로 링도 다시 잡습니다. */
+window.addEventListener('resize', () => {
+  fit()
+  if (app.view === 'step' && !currentStep().auto) placeSpot()
+})
+
 window.addEventListener('orientationchange', fit)
 fit()
 render()

@@ -202,6 +202,7 @@ function renderStep() {
     ${band({ ...step, now: app.index, total: app.track.steps.length })}
     <div class="viewport${switched ? ' is-switching' : ''}" id="vp">
       ${SCREENS[step.screen](state)}
+      ${step.scene ? scene(step.scene) : ''}
     </div>`
 
   clearTimeout(autoTimer)
@@ -210,15 +211,29 @@ function renderStep() {
     return
   }
   /* 시트·얼럿이 올라오는 동안 위치를 재면 강조 링이 어긋나므로, 끝나기를 기다립니다.
-   * 스피너처럼 끝나지 않는 애니메이션은 빼고 봅니다. */
+   * 스피너처럼 끝나지 않는 애니메이션은 빼고 봅니다.
+   * 글꼴도 기다립니다 — 늦게 오면 글자가 다시 흘러 버튼이 밀리는데, 그 전에 재면
+   * 링이 엉뚱한 곳에 붙습니다. */
   const vp = $('#vp')
   const settling = vp
     .getAnimations({ subtree: true })
     .filter((a) => a.effect?.getTiming().iterations !== Infinity)
     .map((a) => a.finished.catch(() => {}))
+  if (document.fonts?.status !== 'loaded') settling.push(document.fonts.ready.catch(() => {}))
   if (settling.length) Promise.all(settling).then(() => app.view === 'step' && placeSpot())
   else placeSpot()
   vp.addEventListener('click', onTap, true)
+}
+
+/**
+ * 고객이 무엇을 내밀며 뭐라고 하는지 — 첫 단계에서 상황을 먼저 보여줍니다.
+ * 어두워진 자리 위에 뜨고, 탭은 막지 않아 아래 버튼을 그대로 누를 수 있습니다.
+ */
+function scene({ held, say }) {
+  return `<div class="scene"><div class="scene__in">
+    <p class="scene__say">${say}</p>
+    ${customerArt(held)}
+  </div></div>`
 }
 
 /** 눌러야 할 곳에 파란 테두리와 손 모양을 올려둡니다. */
@@ -249,6 +264,10 @@ function placeSpot() {
     'beforeend',
     `<div class="spot" style="left:${x - 3}px;top:${y - 3}px;width:${w + 6}px;height:${h + 6}px"></div>`,
   )
+
+  /* 고객 그림은 어둠이 깔린 뒤에 떠오릅니다. 같이 나타나면 무엇이 바뀐 건지
+   * 눈이 못 따라갑니다. */
+  vp.querySelector('.scene')?.classList.add('is-in')
 
   /* 누르지 않고 설명만 하는 단계는 손 대신 말풍선을 띄우고 `다음`으로 넘어갑니다. */
   if (step.tip) {
@@ -418,7 +437,12 @@ function render() {
   bindTopbar()
 }
 
-window.addEventListener('resize', fit)
+/* 창 크기가 바뀌면 글자가 다시 흘러 버튼이 움직이므로 링도 다시 잡습니다. */
+window.addEventListener('resize', () => {
+  fit()
+  if (app.view === 'step' && !currentStep().auto) placeSpot()
+})
+
 window.addEventListener('orientationchange', fit)
 fit()
 render()

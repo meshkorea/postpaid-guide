@@ -83,3 +83,68 @@ const KIS_WAY = {
   easy: `<svg viewBox="0 0 30 30" fill="none"><rect x="4" y="9" width="22" height="12" rx="6" fill="#00c4b3"/><text x="15" y="17" font-size="6" text-anchor="middle" fill="#fff" font-weight="700">PAY</text></svg>`,
   apple: `<svg viewBox="0 0 30 30" fill="none"><ellipse cx="15" cy="15" rx="10" ry="7" stroke="#4a4f63" stroke-width="1.6"/><circle cx="15" cy="15" r="3" fill="#4a4f63"/></svg>`,
 }
+
+/* ── 고객이 결제 수단을 건네는 그림 ───────────────────────
+ * 연습 첫 단계에서 «지금 무슨 상황인지»를 글보다 먼저 잡아줍니다.
+ * 몸통 안쪽(x=86)에서 팔이 나와 이음매가 보이지 않고, 손은 팔 끝에 놓아
+ * 물건 모서리를 쥔 것처럼 겹칩니다. */
+
+const HELD = {
+  card: `<g transform="rotate(-14 154 107)">
+    <rect x="126" y="90" width="56" height="34" rx="5" fill="#fff"/>
+    <rect x="126" y="98" width="56" height="8" fill="#1b64da"/>
+    <rect x="132" y="112" width="17" height="6" rx="3" fill="#cdd9ee"/>
+  </g>`,
+
+  cash: `<g transform="rotate(-12 154 107)">
+    <rect x="127" y="91" width="54" height="32" rx="4" fill="#dff2e6" stroke="#8ecfae" stroke-width="2"/>
+    <circle cx="154" cy="107" r="9.5" fill="#fff" stroke="#8ecfae" stroke-width="2"/>
+    <text x="154" y="112" text-anchor="middle" font-size="13" font-weight="800" fill="#2f9e63">₩</text>
+  </g>`,
+
+  /* 폰은 세로로 길어 손이 옆면을 쥡니다 — 왼쪽 모서리를 손 위치에 맞춥니다. */
+  qr: `<g transform="rotate(-10 150 104)">
+    <rect x="127" y="78" width="40" height="55" rx="7" fill="#2b2e33"/>
+    <rect x="132" y="85" width="30" height="41" rx="3" fill="#fff"/>
+    <path d="M136 90h8v8h-8zM150 90h8v8h-8zM136 104h8v8h-8z" fill="#1b2432"/>
+    <path d="M151 105h3v3h-3zM156 105h3v3h-3zM151 110h3v3h-3zM156 110h3v3h-3zM136 116h8v3h-8zM150 116h8v3h-8z" fill="#1b2432"/>
+  </g>`,
+
+  /* 분할 — 지폐를 뒤에, 카드를 앞에 펼쳐 쥡니다 */
+  split: `<g transform="rotate(-26 152 100)">
+    <rect x="125" y="84" width="52" height="31" rx="4" fill="#dff2e6" stroke="#8ecfae" stroke-width="2"/>
+    <circle cx="151" cy="99.5" r="8.5" fill="#fff" stroke="#8ecfae" stroke-width="2"/>
+    <text x="151" y="104" text-anchor="middle" font-size="12" font-weight="800" fill="#2f9e63">₩</text>
+  </g>
+  <g transform="rotate(-6 154 110)">
+    <rect x="128" y="94" width="54" height="33" rx="5" fill="#fff" stroke="#e2e6ee" stroke-width="1.5"/>
+    <rect x="128" y="102" width="54" height="8" fill="#1b64da"/>
+    <rect x="134" y="116" width="16" height="6" rx="3" fill="#cdd9ee"/>
+  </g>`,
+}
+
+/** 고객 그림 — held에 card·cash·qr·split 중 하나를 줍니다. */
+function customerArt(held) {
+  return `<svg class="scene__fig" viewBox="-66 49 256 103" fill="none" aria-hidden="true">
+    <defs><clipPath id="vr-cust-clip"><circle cx="62" cy="100" r="50"/></clipPath></defs>
+    <circle cx="62" cy="100" r="50" fill="#f2f5fb"/>
+    <g clip-path="url(#vr-cust-clip)">
+      <path d="M53 88h18v22H53z" fill="#eab894"/>
+      <path d="M20 152v-6c0-24 19-41 42-41s42 17 42 41v6z" fill="#3f6fd8"/>
+      <path d="M49 108c3 8 7 12 13 12s10-4 13-12c-4-2-8-3-13-3s-10 1-13 3z" fill="#5a86e4"/>
+    </g>
+    <circle cx="62" cy="74" r="22" fill="#f7d3b4"/>
+    <ellipse cx="42.5" cy="77" rx="3.8" ry="4.8" fill="#f2c6a4"/>
+    <ellipse cx="81.5" cy="77" rx="3.8" ry="4.8" fill="#f2c6a4"/>
+    <path d="M39.4 68A23 23 0 0 1 84.6 68Q62 74 39.4 68Z" fill="#3c3a44"/>
+    <circle cx="54.5" cy="75" r="2.7" fill="#3c3a44"/>
+    <circle cx="70.5" cy="75" r="2.7" fill="#3c3a44"/>
+    <path d="M51.6 69.8c1.7-1.4 4-1.4 5.7 0" stroke="#3c3a44" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M67.7 69.8c1.7-1.4 4-1.4 5.7 0" stroke="#3c3a44" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M62.5 78v4.4c0 1-.9 1.7-2 1.7" stroke="#d99a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M57.4 88.4c2.5 2.7 6.8 2.7 9.2 0" stroke="#c07a52" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M84 124C99 127 113 121 122 112" stroke="#3f6fd8" stroke-width="15" stroke-linecap="round"/>
+    ${HELD[held] || HELD.card}
+    <ellipse cx="122" cy="110" rx="8" ry="7.2" transform="rotate(-18 122 110)" fill="#f7d3b4"/>
+  </svg>`
+}

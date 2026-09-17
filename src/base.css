@@ -294,6 +294,89 @@ button {
     0 0 0 9999px rgba(12, 18, 30, 0.55);
 }
 
+/* ── 고객이 건네며 말하는 장면 ───────────────────────────
+ * 강조 링(z-index 30)이 만드는 어둠 위에 떠야 밝게 보이므로 그보다 위에 둡니다.
+ * 앱 화면도 함께 보여야 하므로 크게 키우지 않고, 아래 결제 버튼을 가리지
+ * 않도록 위쪽에 둡니다. pointer-events는 꺼서 탭을 막지 않습니다. */
+.scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 33;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* 어둠이 깔릴 때까지 숨어 있다가(placeSpot이 is-in을 붙입니다) 떠오릅니다. */
+  opacity: 0;
+}
+
+.scene.is-in {
+  animation: scene-in 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) 0.12s both;
+}
+
+/* 그림과 말풍선을 한 덩어리로 세로로 쌓습니다. 말풍선을 흐름에 두면
+ * 글자가 길어 두 줄이 돼도 사람과의 간격이 그대로 유지됩니다. */
+.scene__in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 290px;
+}
+
+.scene__fig {
+  display: block;
+  width: 277px;
+  height: auto;
+  margin: 0;
+  filter: drop-shadow(0 8px 16px rgba(8, 16, 34, 0.45));
+}
+
+/* 말풍선은 머리 오른쪽 위에 띄우고 꼬리로 사람을 가리킵니다.
+ * 몸 위에 겹치면 그림이 지저분해집니다. */
+.scene__say {
+  position: relative;
+  /* 꼬리 7px + 원 위까지 4px (그림 위 여백 1칸은 빼고) */
+  margin: 0 0 10px;
+  max-width: 180px;
+  background: #fff;
+  color: var(--ink);
+  /* 꼬리를 아래 가운데에 따로 두므로 네 모서리를 고르게 둥글립니다.
+   * 한 모서리만 각지면 꼬리가 둘처럼 보입니다. */
+  border-radius: 15px;
+  padding: 9px 13px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.38;
+  box-shadow: 0 6px 16px rgba(8, 16, 34, 0.34);
+}
+
+/* 사람이 그림 한가운데 있으므로 꼬리도 가운데에서 내려옵니다. */
+.scene__say::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -7px;
+  bottom: -7px;
+  border: 7px solid transparent;
+  border-bottom: 0;
+  border-top-color: #fff;
+}
+
+/* .scene이 평소 숨어 있으므로(opacity 0) 끝 상태를 반드시 적어야 합니다.
+ * 안 적으면 원래 값인 «보이지 않음»으로 되돌아갑니다. */
+@keyframes scene-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 10px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
 /* 말풍선 안내 — 누르지 않고 «다음»으로 넘어가는 설명 단계 */
 .tip {
   position: absolute;

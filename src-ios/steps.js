@@ -4,8 +4,8 @@
  * 안드로이드와 갈리는 곳만 적어둡니다.
  *   · KIS Pay가 없습니다. 카드는 «카드 결제하기»를 누르면 곧장 이지체크로 넘어갑니다
  *   · 결제수단에 «QR 간편»이 있습니다. 고객 폰의 바코드·QR을 카메라로 읽습니다
- *   · 분할 결제는 한 회차를 받아도 배달지 화면으로 나가지 않고,
- *     «결제 완료»가 잠깐 떴다 사라진 뒤 잔액이 줄어든 분할 화면에 그대로 남습니다
+ *   · 분할 결제는 한 회차를 받으면 «결제 완료»가 잠깐 떴다 사라지고,
+ *     바텀시트가 닫히며 남은 금액이 찍힌 배달지 화면으로 돌아옵니다
  */
 
 const TOTAL = 58500
@@ -21,6 +21,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'cash', total: TOTAL },
         q: '고객에게 상품을 전달하고 현금을 받았어요',
+        scene: { held: 'cash', say: '현금으로 낼게요' },
         a: '<b>현금 58,500원 결제하기</b>를 눌러주세요',
         target: '#cta',
       },
@@ -62,6 +63,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
         q: '후불카드 오더예요. 고객이 카드를 줬어요',
+        scene: { held: 'card', say: '카드로 결제할게요' },
         a: '<b>카드 58,500원 결제하기</b>를 눌러주세요',
         note: '아이폰은 누르면 바로 이지체크 앱이 열려요',
         target: '#cta',
@@ -161,6 +163,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
         q: '고객이 카드 대신 <b>페이로 내겠다</b>고 해요',
+        scene: { held: 'qr', say: '페이로 결제할게요' },
         a: '<b>다른 방법으로 결제</b>를 눌러주세요',
         target: '#alt',
       },
@@ -251,6 +254,7 @@ const TRACKS = [
         screen: 'detail',
         state: { order: 'cash', total: TOTAL },
         q: '고객이 2만원은 현금, 나머지는 카드로 내겠대요',
+        scene: { held: 'split', say: '2만원은 현금으로 낼게요' },
         a: '<b>다른 방법으로 결제</b>를 눌러주세요',
         target: '#alt',
       },
@@ -288,8 +292,17 @@ const TRACKS = [
         state: { order: 'cash', total: TOTAL, typed: 20000, paidWith: 'cash' },
         q: '현금 20,000원을 받았어요',
         a: '잠깐 뜨고 저절로 사라져요',
-        note: '아이폰은 배달지 화면으로 나가지 않고 분할 화면에 그대로 남아요',
+        note: '잠시 뒤 시트가 닫히고 배달지 화면으로 돌아와요',
         auto: 1500,
+      },
+      {
+        screen: 'detail',
+        state: { order: 'cash', total: TOTAL, remain: 38500 },
+        q: '20,000원을 받고 배달지 화면으로 돌아왔어요',
+        scene: { held: 'card', say: '나머지는 카드로 할게요' },
+        a: '<b>38,500원 결제하기</b>를 눌러주세요',
+        note: '버튼에는 남은 금액만 떠요',
+        target: '#cta',
       },
       {
         screen: 'splitSheet',
@@ -373,7 +386,7 @@ const TRACKS = [
     ],
     recap: [
       '회차마다 <b>현금·카드·QR</b>을 따로 고를 수 있어요',
-      '한 회차를 받아도 <b>분할 화면에 그대로</b> 남아요',
+      '한 회차를 받으면 <b>배달지 화면</b>으로 돌아와요',
       '다음 회차는 <b>남은 금액이 채워져</b> 있어요',
     ],
   },
