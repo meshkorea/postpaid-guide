@@ -4688,7 +4688,6 @@ const TRACKS = [
         state: {},
         q: '이지체크 간편결제가 열리고 카메라가 켜져요',
         a: '고객 폰의 <b>바코드</b>를 비춰주세요',
-        note: '엘페이·카카오페이·알리페이·SSG·네이버페이를 받을 수 있어요',
         target: '#e-qr-code',
       },
       {
@@ -4746,7 +4745,6 @@ const TRACKS = [
     recap: [
       '<b>다른 방법으로 결제 → QR 간편</b>으로 들어가요',
       '고객 폰의 <b>바코드·QR</b>을 카메라로 읽어요',
-      '번호가 다르면 <b>다시</b>를 눌러 다시 비춰요',
     ],
   },
 
@@ -4776,9 +4774,8 @@ const TRACKS = [
       {
         screen: 'splitSheet',
         state: { order: 'cash', total: TOTAL },
-        q: '이번에 받을 금액을 넣어요',
-        a: '<b>20,000원</b>을 넣어주세요',
-        note: '+1만원을 두 번 눌러도 되고, 숫자를 직접 눌러도 돼요',
+        q: '먼저 현금으로 받을 20,000원을 넣어요',
+        a: '<b>+1만원</b>을 두 번 누르거나 숫자로 <b>20000</b>을 눌러주세요',
         type: { expect: 20000 },
       },
       {
@@ -4815,16 +4812,17 @@ const TRACKS = [
       {
         screen: 'splitSheet',
         state: { order: 'cash', total: TOTAL, remain: 38500, typed: 38500 },
-        q: '남은 38,500원이 그대로 채워져 있어요',
+        q: '남은 금액이 이미 채워져 있어요',
         a: '<b>카드</b>를 눌러주세요',
-        note: '58,500원이 아니라 남은 38,500원이 넘어가요',
+        note: '더 적게 받으려면 ✕로 지우고 다시 넣으면 돼요',
         target: '#s-card',
       },
       {
         screen: 'easycheckShop',
         state: {},
-        q: '이지체크 앱이 열려요',
+        q: '이지체크 앱이 열리고 가맹점 정보를 먼저 보여줘요',
         a: '<b>확인</b>을 눌러주세요',
+        note: '내 가맹점이 맞는지 한 번 보고 넘어가요',
         target: '#e-shop-ok',
       },
       {
@@ -4832,6 +4830,7 @@ const TRACKS = [
         state: { readerAlert: true },
         q: '리더기를 등록할지 물어봐요',
         a: '<b>취소</b>를 눌러주세요',
+        note: '번호만 넣을 거라 리더기는 등록하지 않아요',
         target: '#e-reader-no',
       },
       {
@@ -4844,8 +4843,9 @@ const TRACKS = [
       {
         screen: 'easycheckKeypad',
         state: { cardNo: ['4045', '77**', '', ''] },
-        q: '보안 키패드로 번호를 넣어요',
+        q: '숫자 자리가 섞인 보안 키패드가 올라와요',
         a: '번호를 다 넣고 <b>확인</b>을 눌러주세요',
+        note: '누를 때마다 숫자 자리가 바뀌니 천천히 확인하고 누르세요',
         target: '#e-key-ok',
       },
       {
@@ -4859,7 +4859,7 @@ const TRACKS = [
       {
         screen: 'easycheckSign',
         state: { total: TOTAL, payNow: 38500 },
-        q: '서명 화면이에요',
+        q: '서명 화면이에요. 화면이 가로로 돌아가요',
         a: '잠시만 기다려주세요',
         auto: 1600,
       },
@@ -4873,8 +4873,9 @@ const TRACKS = [
       {
         screen: 'easycheckDone',
         state: { total: TOTAL, payNow: 38500 },
-        q: '남은 금액 승인이 끝났어요',
+        q: '남은 금액 승인이 끝났어요. 여기가 제일 중요해요',
         a: '<b>확인</b>을 꼭 눌러주세요',
+        note: '이 확인을 눌러야 부릉플러스에 결제 결과가 들어가요',
         target: '#e-done-ok',
       },
       {
