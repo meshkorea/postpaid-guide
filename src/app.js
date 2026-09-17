@@ -112,13 +112,16 @@ function band({ q, a, note, now, total }) {
 function renderOutro() {
   const t = app.track
   const next = TRACKS[TRACKS.indexOf(t) + 1]
+  /* 결과는 카드 하나로 묶습니다. 흰 덩어리가 둘이면 어느 쪽을 봐야 할지 흩어집니다. */
   frame().innerHTML = `${topbar()}<div class="outro">
-    ${ICON.check}
-    <h2 class="outro__title">${t.title}<br>연습을 마쳤어요</h2>
-    <p class="outro__sub">이대로 하시면 돼요.</p>
-    <div class="recap">
-      <p class="recap__h">기억할 것</p>
-      ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
+    <div class="outro__card">
+      ${ICON.check}
+      <h2 class="outro__title">${t.title}<br>연습을 마쳤어요</h2>
+      <p class="outro__sub">이대로 하시면 돼요</p>
+      <div class="recap">
+        <p class="recap__h">기억할 것</p>
+        ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
+      </div>
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
     <button class="outro__link" id="o-again">이 연습 다시 하기</button>

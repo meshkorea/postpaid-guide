@@ -585,47 +585,49 @@ button {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, #2f7ce8 0%, #1b64da 55%, #1550b4 100%);
-  padding: 24px 22px 22px;
+  padding: 20px 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow-y: auto;
 }
 
+/* 결과는 카드 하나로 묶습니다 — 흰 덩어리가 둘이면 시선이 흩어집니다. */
+.outro__card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 26px 18px 18px;
+  box-shadow: 0 14px 34px rgba(8, 28, 68, 0.22);
+}
+
 .outro__check {
-  width: 62px;
-  height: 62px;
-  align-self: center;
-  margin-bottom: 16px;
+  width: 54px;
+  height: 54px;
+  display: block;
+  margin: 0 auto 14px;
 }
 
 .outro__title {
   text-align: center;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin: 0 0 8px;
-  color: #fff;
+  line-height: 1.38;
+  margin: 0 0 6px;
+  color: var(--ink);
 }
 
 .outro__sub {
   text-align: center;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 22px;
-  line-height: 1.5;
-}
-
-/* 초록 동그라미는 파란 바탕에서 탁해 보여 흰색으로 바꿉니다. */
-.outro__check circle {
-  fill: #fff;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  margin: 0 0 18px;
 }
 
 .recap {
-  background: #fff;
+  background: var(--bg);
   border-radius: 12px;
   padding: 14px 15px;
-  margin-bottom: 18px;
 }
 
 .recap__h {
@@ -651,6 +653,12 @@ button {
   margin-bottom: 0;
 }
 
+/* «카메라·간편결제·NFC»처럼 가운뎃점으로 묶은 말은 통째로 넘깁니다.
+ * 안 그러면 다음 줄이 «·간편결제»로 시작해 읽다 걸립니다. */
+.recap__li b {
+  white-space: nowrap;
+}
+
 .recap__li::before {
   content: '';
   position: absolute;
@@ -663,23 +671,26 @@ button {
 }
 
 .outro__btn {
-  margin-top: 28px;
+  flex: none;
+  margin-top: 18px;
   height: 52px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #fff;
   color: var(--blue);
   font-size: 16px;
   font-weight: 700;
   width: 100%;
+  box-shadow: 0 6px 16px rgba(8, 28, 68, 0.18);
 }
 
 .outro__link {
-  height: 44px;
+  flex: none;
+  height: 42px;
   color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
   font-weight: 600;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* 연습에 나오는 화면들 — 부릉플러스 기사앱, KIS Pay 앱, 이지체크(KICC) 앱 */
@@ -4432,13 +4443,16 @@ function band({ q, a, note, now, total }) {
 function renderOutro() {
   const t = app.track
   const next = TRACKS[TRACKS.indexOf(t) + 1]
+  /* 결과는 카드 하나로 묶습니다. 흰 덩어리가 둘이면 어느 쪽을 봐야 할지 흩어집니다. */
   frame().innerHTML = `${topbar()}<div class="outro">
-    ${ICON.check}
-    <h2 class="outro__title">${t.title}<br>연습을 마쳤어요</h2>
-    <p class="outro__sub">이대로 하시면 돼요.</p>
-    <div class="recap">
-      <p class="recap__h">기억할 것</p>
-      ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
+    <div class="outro__card">
+      ${ICON.check}
+      <h2 class="outro__title">${t.title}<br>연습을 마쳤어요</h2>
+      <p class="outro__sub">이대로 하시면 돼요</p>
+      <div class="recap">
+        <p class="recap__h">기억할 것</p>
+        ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
+      </div>
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
     <button class="outro__link" id="o-again">이 연습 다시 하기</button>
