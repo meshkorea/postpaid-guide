@@ -620,6 +620,20 @@ button {
   text-align: center;
 }
 
+/* 링크를 하나만 받은 기사님이 기종을 잘못 열었을 때 건너가는 줄 */
+.cover__switch {
+  margin: 10px 0 2px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  flex: none;
+}
+
 /* ───────────────────────── 시작 모달 ─────────────────────────
  * 목록 화면을 따로 두지 않고, 앱 화면 위에 모달로 시작합니다. */
 

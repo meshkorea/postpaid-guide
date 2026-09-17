@@ -15,9 +15,24 @@
 | | |
 | --- | --- |
 | 결과물 | `docs/postpaid-android/index.html` · `docs/postpaid-ios/index.html` — 각각 **단일 HTML 한 장**. 외부 요청 0, 지도 이미지까지 data URI로 내장 |
-| 만들기 | `node build.mjs` — 두 장을 한 번에 만듭니다 |
+| 만들기 | `node build.mjs` — 두 장과 첫 화면을 한 번에 만듭니다 |
 | 보기 | 파일을 그냥 열거나, 아무 정적 호스팅에 올리면 됩니다 |
-| 올린 곳 | https://meshkorea.github.io/practice/postpaid-android/ · https://meshkorea.github.io/practice/postpaid-ios/ |
+| **기사님께 줄 링크** | **https://meshkorea.github.io/practice/** — 폰을 알아보고 알맞은 쪽으로 넘깁니다 |
+| 각각 바로 | `…/practice/postpaid-android/` · `…/practice/postpaid-ios/` |
+
+### 링크 한 줄로 만드는 방법
+
+`docs/index.html`(원본은 `src/landing.html`)이 `userAgent`를 보고 곧장 넘깁니다.
+
+| 보는 사람 | 가는 곳 |
+| --- | --- |
+| 안드로이드 (삼성인터넷·크롬·카톡 인앱 포함) | `postpaid-android/` |
+| 아이폰·아이패드 (맥인 척하는 iPadOS 13+ 포함) | `postpaid-ios/` |
+| 데스크톱 등 못 알아본 경우 | 두 버튼을 그대로 보여줍니다 |
+
+- `?pick`을 붙이면 넘기지 않고 고르는 화면을 봅니다 — `…/practice/?pick`
+- 잘못된 쪽으로 갔을 때를 위해 **표지 맨 아래에 «아이폰이신가요?»** 버튼을 뒀습니다
+  (링크는 `build.mjs`의 `other`에서 넣습니다)
 
 ## 연습 갈래
 
