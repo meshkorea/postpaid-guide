@@ -320,4 +320,23 @@ function ecCashDone(s) {
   )
 }
 
-Object.assign(SCREENS, { ecCashShop, ecCashId, ecCashKeypad, ecCashAmount, ecCashDone })
+/* ── 현금영수증 발급 시트 (1397:125018) ───────────────────
+ * 안드로이드는 이 시트에서 번호까지 받지만, 아이폰은 개인·사업자만 고르고
+ * «번호 입력하기»로 이지체크를 엽니다. 번호는 이지체크 보안 키패드에서 넣어요. */
+
+function receiptSheet(s) {
+  return `${SCREENS.payHistory(s)}
+    <div class="dim"></div>
+    <div class="sheet sheet--receipt sheet--receipt-ios">
+      <span class="sheet__x">✕</span>
+      <h4 class="sheet__title">현금 영수증 발급</h4>
+      <label class="radio${s.biz ? '' : ' is-on'}">개인 소득공제용</label>
+      <label class="radio${s.biz ? ' is-on' : ''}">사업자 지출증빙</label>
+      <div class="sheet__btns">
+        <button class="sheet__btn">취소</button>
+        <button class="sheet__btn sheet__btn--go" id="r-issue">번호 입력하기</button>
+      </div>
+    </div>`
+}
+
+Object.assign(SCREENS, { receiptSheet, ecCashShop, ecCashId, ecCashKeypad, ecCashAmount, ecCashDone })

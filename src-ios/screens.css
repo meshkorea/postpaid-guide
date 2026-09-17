@@ -207,3 +207,10 @@
 .ec__callout span {
   display: block;
 }
+
+/* ── 현금영수증 발급 시트 (1397:125018) ───────────────────
+ * 번호 칸이 없어서 라디오와 버튼이 붙습니다. 디자인만큼 사이를 띄웁니다. */
+
+.sheet--receipt-ios .sheet__btns {
+  margin-top: 18px;
+}
