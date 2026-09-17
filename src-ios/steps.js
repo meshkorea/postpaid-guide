@@ -142,6 +142,8 @@ const TRACKS = [
         target: '#d-ok',
       },
     ],
+    /* 아이폰은 KIS Pay를 쓰지 않아 이지체크만 답니다. */
+    apps: [{ name: '이지체크', url: 'https://apps.apple.com/kr/app/easycheckic/id1043451429' }],
     recap: [
       '아이폰은 <b>KIS Pay 없이</b> 바로 이지체크로 가요',
       '리더기를 등록해두면 다음부터 <b>자동으로 연결</b>돼요',

@@ -122,6 +122,7 @@ function renderOutro() {
         <p class="recap__h">기억할 것</p>
         ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
       </div>
+      ${t.apps ? appLinks(t.apps) : ''}
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
     <button class="outro__link" id="o-again">이 연습 다시 하기</button>
@@ -144,6 +145,20 @@ function renderOutro() {
     app.view = 'step'
     render()
   })
+}
+
+/** 마무리 카드 아래 붙는 앱 설치 버튼. 스토어는 새 창에서 엽니다. */
+function appLinks(apps) {
+  return `<div class="stores">
+    <p class="stores__h">앱이 없으면 먼저 설치해주세요</p>
+    ${apps
+      .map(
+        (a) => `<a class="store" href="${a.url}" target="_blank" rel="noopener">
+      ${ICON.download}<span>${a.name} 설치</span>
+    </a>`,
+      )
+      .join('')}
+  </div>`
 }
 
 /* ── 단계 화면 ───────────────────────────────────────────── */

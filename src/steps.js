@@ -235,6 +235,11 @@ const TRACKS = [
         target: '#d-ok',
       },
     ],
+    /* 마무리에서 바로 설치할 수 있게 스토어 주소를 답니다. */
+    apps: [
+      { name: 'KIS Pay', url: 'https://play.google.com/store/apps/details?id=kr.co.kisvan.mobile.konpay' },
+      { name: '이지체크', url: 'https://play.google.com/store/apps/details?id=kr.co.kicc.ecm' },
+    ],
     recap: [
       '카드 리더기가 있으면 <b>블루투스결제</b>',
       '리더기가 없어도 <b>카메라·간편결제·NFC</b>로 돼요',

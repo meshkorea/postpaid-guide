@@ -60,6 +60,8 @@ const ICON = {
 
   check: `<svg class="outro__check" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="#e3f6ef"/><path d="m20 33 8.5 8.5L44 25" stroke="#009159" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 
+  download: `<svg viewBox="0 0 20 20" width="15" height="15" fill="none"><path d="M10 3v8.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m6.4 8.4 3.6 3.6 3.6-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14.4v1.1c0 .8.6 1.5 1.4 1.5h9.2c.8 0 1.4-.7 1.4-1.5v-1.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+
   chev: `<svg class="track__go" viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="m7.5 4.5 6 5.5-6 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 
   kisLogo: `<svg viewBox="0 0 20 20" width="18" height="18"><rect width="20" height="20" rx="4.5" fill="#1b64da"/><path d="M6.4 4.6h2.3v4.2l3.6-4.2h2.8l-4 4.6 4.2 6h-2.9l-3-4.4-.7.8v3.6H6.4V4.6Z" fill="#fff"/></svg>`,

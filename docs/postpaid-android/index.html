@@ -670,6 +670,44 @@ button {
   background: var(--blue);
 }
 
+/* ── 마무리 카드 아래 앱 설치 버튼 ─────────────────────────
+ * 연습만 하고 정작 앱이 없으면 현장에서 막히므로 여기서 바로 받게 합니다. */
+.stores {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.stores__h {
+  margin: 0 0 9px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.store {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  margin-bottom: 7px;
+  border: 1px solid #cdd9ee;
+  border-radius: 10px;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.store:last-child {
+  margin-bottom: 0;
+}
+
+.store:active {
+  background: var(--blue-weak);
+}
+
 .outro__btn {
   flex: none;
   margin-top: 18px;
@@ -3120,6 +3158,8 @@ const ICON = {
 
   check: `<svg class="outro__check" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="#e3f6ef"/><path d="m20 33 8.5 8.5L44 25" stroke="#009159" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 
+  download: `<svg viewBox="0 0 20 20" width="15" height="15" fill="none"><path d="M10 3v8.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m6.4 8.4 3.6 3.6 3.6-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14.4v1.1c0 .8.6 1.5 1.4 1.5h9.2c.8 0 1.4-.7 1.4-1.5v-1.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+
   chev: `<svg class="track__go" viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="m7.5 4.5 6 5.5-6 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 
   kisLogo: `<svg viewBox="0 0 20 20" width="18" height="18"><rect width="20" height="20" rx="4.5" fill="#1b64da"/><path d="M6.4 4.6h2.3v4.2l3.6-4.2h2.8l-4 4.6 4.2 6h-2.9l-3-4.4-.7.8v3.6H6.4V4.6Z" fill="#fff"/></svg>`,
@@ -4121,6 +4161,11 @@ const TRACKS = [
         target: '#d-ok',
       },
     ],
+    /* 마무리에서 바로 설치할 수 있게 스토어 주소를 답니다. */
+    apps: [
+      { name: 'KIS Pay', url: 'https://play.google.com/store/apps/details?id=kr.co.kisvan.mobile.konpay' },
+      { name: '이지체크', url: 'https://play.google.com/store/apps/details?id=kr.co.kicc.ecm' },
+    ],
     recap: [
       '카드 리더기가 있으면 <b>블루투스결제</b>',
       '리더기가 없어도 <b>카메라·간편결제·NFC</b>로 돼요',
@@ -4453,6 +4498,7 @@ function renderOutro() {
         <p class="recap__h">기억할 것</p>
         ${t.recap.map((r) => `<p class="recap__li">${r}</p>`).join('')}
       </div>
+      ${t.apps ? appLinks(t.apps) : ''}
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
     <button class="outro__link" id="o-again">이 연습 다시 하기</button>
@@ -4475,6 +4521,20 @@ function renderOutro() {
     app.view = 'step'
     render()
   })
+}
+
+/** 마무리 카드 아래 붙는 앱 설치 버튼. 스토어는 새 창에서 엽니다. */
+function appLinks(apps) {
+  return `<div class="stores">
+    <p class="stores__h">앱이 없으면 먼저 설치해주세요</p>
+    ${apps
+      .map(
+        (a) => `<a class="store" href="${a.url}" target="_blank" rel="noopener">
+      ${ICON.download}<span>${a.name} 설치</span>
+    </a>`,
+      )
+      .join('')}
+  </div>`
 }
 
 /* ── 단계 화면 ───────────────────────────────────────────── */

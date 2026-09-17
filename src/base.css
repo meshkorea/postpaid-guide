@@ -662,6 +662,44 @@ button {
   background: var(--blue);
 }
 
+/* ── 마무리 카드 아래 앱 설치 버튼 ─────────────────────────
+ * 연습만 하고 정작 앱이 없으면 현장에서 막히므로 여기서 바로 받게 합니다. */
+.stores {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.stores__h {
+  margin: 0 0 9px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.store {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  margin-bottom: 7px;
+  border: 1px solid #cdd9ee;
+  border-radius: 10px;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.store:last-child {
+  margin-bottom: 0;
+}
+
+.store:active {
+  background: var(--blue-weak);
+}
+
 .outro__btn {
   flex: none;
   margin-top: 18px;
