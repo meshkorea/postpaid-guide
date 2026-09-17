@@ -199,3 +199,125 @@ Object.assign(SCREENS, {
   ecQrNum,
   ecQrAmount,
 })
+
+/* ── 이지체크 · 소비자소득공제 (현금영수증) ─────────────────
+ * 아이폰은 KIS Pay가 없어 현금영수증도 이지체크로 넘어갑니다.
+ * 카드 결제와 같은 앱이지만 상단 제목이 «소비자소득공제»이고,
+ * 카드번호 대신 «식별번호»(휴대폰번호나 주민번호) 한 칸을 받습니다.
+ * 설계 자료의 식별번호는 가려진 값(01038*****5)이라 그대로 씁니다. */
+
+const EC_CASH = { title: '소비자소득공제' }
+
+/** 1. 가맹점 정보 */
+function ecCashShop() {
+  return ecChrome(
+    `<div class="ec__body">
+      ${ecHead('가맹점 정보')}
+      ${ecCard([
+        ['TID', '0788888'],
+        ['사업자번호', '1168119948'],
+        ['가맹점명', '부릉플러스_상점_모바일'],
+        ['대표자명', '부릉플러스_상점_모바일'],
+        ['주 소', '123'],
+        ['전화번호', '123'],
+      ])}
+      <button class="ec__ok" id="e-cash-shop-ok">확인</button>
+    </div>`,
+    EC_CASH,
+  )
+}
+
+/** 2·3. 식별번호 입력 — 리더기 등록 얼럿이 먼저 뜹니다 */
+function ecCashId(s = {}) {
+  return ecChrome(
+    `<div class="ec__body">
+      <p class="ec__h ec__h--qr">주민번호 또는 휴대폰번호를<br>입력해주세요.</p>
+      <div class="ec__qrno">
+        <b>식별번호</b>
+        <span class="ec__input" id="e-cash-no">${s.no || ''}${s.no ? '<i class="ec__clear">✕</i>' : ''}</span>
+      </div>
+      ${s.readerAlert ? ecReaderAlert() : ''}
+      <button class="ec__ok" id="e-cash-id-ok">확인</button>
+    </div>`,
+    EC_CASH,
+  )
+}
+
+/** 4. 번호를 넣는 보안 키패드 — 카드 쪽과 같이 숫자 자리가 섞입니다 */
+function ecCashKeypad() {
+  const keys = ['6', '8', '2', '3', '5', '0', '9', '1', '4', '확인', '7', '⌫']
+  return ecChrome(
+    `<div class="ec__body ec__body--keypad">
+      <div class="ec__reader-row">
+        <span class="ec__reader-btn">리더기<br>등록</span>
+        <p class="ec__h ec__h--inline">주민번호 또는 휴대폰번호를<br>입력해주세요.</p>
+      </div>
+      <div class="ec__qrno">
+        <b>식별번호</b>
+        <span class="ec__input">01038*****5<i class="ec__clear">✕</i></span>
+      </div>
+      <p class="ec__notice">**등록된 리더기() 전원을 켜주세요. 자동연결 됩니다.<br>리더기등록 버튼은 리더기 변경 등록시에만 눌러주세요</p>
+      <div class="ec__keypad">
+        ${keys
+          .map((k) => {
+            if (k === '확인') return `<button class="ec__key ec__key--ok" id="e-cash-key-ok">확인</button>`
+            if (k === '⌫') return `<button class="ec__key ec__key--del">⌫</button>`
+            return `<button class="ec__key">${k}</button>`
+          })
+          .join('')}
+      </div>
+    </div>`,
+    EC_CASH,
+  )
+}
+
+/** 5. 금액 확인 */
+function ecCashAmount(s) {
+  const n = (s.payNow ?? s.total).toLocaleString('ko-KR')
+  return ecChrome(
+    `<div class="ec__body">
+      <div class="ec__amt">
+        <div class="ec__amt-row"><b>금액</b><span class="ec__input">${n}<i class="ec__clear">✕</i></span><em>원</em></div>
+        <div class="ec__amt-row"><b>부가세</b><span class="ec__input">0</span><em>원</em></div>
+        <div class="ec__amt-row"><b>봉사료</b><span class="ec__input">0</span><em>원</em></div>
+        <div class="ec__amt-row is-total"><b>합계</b><span class="ec__input">${n}</span><em>원</em></div>
+      </div>
+      <button class="ec__ok" id="e-cash-amt-ok">확인</button>
+    </div>`,
+    EC_CASH,
+  )
+}
+
+/** 6. 발급 완료 영수증 — 여기서 «확인»을 눌러야 부릉플러스에 들어갑니다 */
+function ecCashDone(s) {
+  const n = (s.payNow ?? s.total).toLocaleString('ko-KR')
+  return ecChrome(
+    `<div class="ec__body">
+      ${ecHead('결제완료')}
+      ${ecCard([
+        ['TID', '0788888'],
+        ['사업자번호', '1168119948'],
+        ['가맹점명', 'name'],
+        ['카드종류', '현금(소득공제)'],
+        ['카드번호', '010-****-4265'],
+        ['금액', n + ' 원'],
+        ['총거래금액', n + ' 원'],
+        ['승인번호', '149838547'],
+      ])}
+      <div class="ec__callout">
+        <b>현금영수증 상담센터</b>
+        <span>국세청 : <b>126</b></span>
+        <span>http://현금영수증.kr</span>
+      </div>
+      <div class="ec__memo"><button class="ec__gray">메모</button></div>
+      <div class="ec__foot">
+        <button class="ec__gray">SMS보내기</button>
+        <button class="ec__gray">전표전송</button>
+        <button class="ec__ok ec__ok--inline" id="e-cash-done-ok">확인</button>
+      </div>
+    </div>`,
+    { back: false, title: '소비자소득공제' },
+  )
+}
+
+Object.assign(SCREENS, { ecCashShop, ecCashId, ecCashKeypad, ecCashAmount, ecCashDone })

@@ -102,7 +102,6 @@ const TRACKS = [
         state: { total: TOTAL },
         q: '받을 금액이 맞는지 보여줘요',
         a: '금액이 맞으면 <b>확인</b>을 눌러주세요',
-        note: '금액은 부릉플러스에서 넘어온 값이에요. 고쳐서 넣지 마세요',
         target: '#e-amount-ok',
       },
       {
@@ -184,7 +183,6 @@ const TRACKS = [
         state: { reading: true },
         q: '바코드를 읽고 번호가 맞는지 물어봐요',
         a: '<b>확인</b>을 눌러주세요',
-        note: '엉뚱한 바코드를 읽었으면 «다시»를 눌러 다시 비추세요',
         target: '#e-qr-ok',
       },
       {
@@ -383,6 +381,126 @@ const TRACKS = [
     ],
     recap: [
       '회차마다 <b>현금·카드·QR</b>을 따로 고를 수 있어요',
+    ],
+  },
+
+  /* ═════════════ 5. 현금영수증 발급 ═════════════
+   * 아이폰은 KIS Pay가 없어 현금영수증도 이지체크로 넘어갑니다.
+   * 이지체크에서는 «소비자소득공제»라는 이름이고, 카드번호 대신
+   * 식별번호(휴대폰번호나 주민번호) 한 칸을 받습니다. */
+  {
+    id: 'receipt',
+    title: '현금영수증 발급',
+    desc: '현금으로 받은 건에 영수증을 끊어줘요',
+    steps: [
+      {
+        screen: 'mainMap',
+        state: {},
+        q: '고객이 현금영수증을 해달라고 해요',
+        a: '오른쪽 위 <b>수행목록</b>을 눌러주세요',
+        target: '#m-tasks',
+      },
+      {
+        screen: 'taskList',
+        state: {},
+        q: '방금 배달한 건을 펼쳐뒀어요',
+        a: '<b>결제내역</b>을 눌러주세요',
+        target: '#t-pay',
+      },
+      {
+        screen: 'payHistory',
+        state: { total: TOTAL },
+        q: '현금으로 받은 건이 보여요',
+        a: '<b>현금 영수증 발급</b>을 눌러주세요',
+        note: '카드로 받은 건에는 이 버튼이 없어요',
+        target: '#p-receipt',
+      },
+      {
+        screen: 'receiptSheet',
+        state: { total: TOTAL },
+        q: '개인용인지 사업자용인지 고르고 번호를 넣어요',
+        a: '<b>번호 칸</b>을 눌러 고객 번호를 넣어주세요',
+        note: '사업자 지출증빙이면 위에서 바꿔주세요',
+        target: '#r-input',
+      },
+      {
+        screen: 'receiptSheet',
+        state: { total: TOTAL, no: '01012345678' },
+        q: '번호를 다 넣었어요',
+        a: '<b>발급하기</b>를 눌러주세요',
+        target: '#r-issue',
+      },
+      {
+        screen: 'ecCashShop',
+        state: {},
+        q: '이지체크가 열리고 가맹점 정보를 보여줘요',
+        a: '<b>확인</b>을 눌러주세요',
+        target: '#e-cash-shop-ok',
+      },
+      {
+        screen: 'ecCashId',
+        state: { readerAlert: true },
+        q: '리더기를 등록할지 물어봐요',
+        a: '<b>취소</b>를 눌러주세요',
+        note: '번호만 넣을 거라 리더기는 등록하지 않아요',
+        target: '#e-reader-no',
+      },
+      {
+        screen: 'ecCashId',
+        state: {},
+        q: '고객 번호를 넣을 차례예요',
+        a: '<b>식별번호</b> 칸을 눌러주세요',
+        target: '#e-cash-no',
+      },
+      {
+        screen: 'ecCashKeypad',
+        state: {},
+        q: '숫자 자리가 섞인 보안 키패드가 올라와요',
+        a: '번호를 다 넣고 <b>확인</b>을 눌러주세요',
+        note: '누를 때마다 숫자 자리가 바뀌니 천천히 확인하고 누르세요',
+        target: '#e-cash-key-ok',
+      },
+      {
+        screen: 'ecCashAmount',
+        state: { total: TOTAL },
+        q: '발급할 금액이 맞는지 보여줘요',
+        a: '금액이 맞으면 <b>확인</b>을 눌러주세요',
+        target: '#e-cash-amt-ok',
+      },
+      {
+        screen: 'kiccSplash',
+        state: {},
+        q: 'KICC로 발급을 요청하고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 1000,
+      },
+      {
+        screen: 'ecCashDone',
+        state: { total: TOTAL },
+        q: '발급이 끝나고 영수증이 나왔어요',
+        a: '<b>확인</b>을 꼭 눌러주세요',
+        note: '이 확인을 눌러야 부릉플러스로 돌아와요',
+        target: '#e-cash-done-ok',
+      },
+      {
+        screen: 'progress',
+        state: { label: '발급중', under: 'payHistory', total: TOTAL },
+        q: '부릉플러스로 돌아오고 있어요',
+        a: '잠시만 기다려주세요',
+        auto: 900,
+      },
+      {
+        screen: 'payHistory',
+        state: { total: TOTAL, issued: true },
+        q: '발급이 끝났어요',
+        a: '한 번 발급하면 <b>버튼이 꺼져요</b>',
+        auto: 2400,
+      },
+    ],
+    recap: [
+      '<b>수행목록 → 결제내역</b>에서 발급해요',
+      '현금으로 받은 건에만 <b>현금영수증 발급</b> 버튼이 있어요',
+      '잘못 접수되면 <b>VCC 1800-8255</b>로 문의해요',
     ],
   },
 ]
