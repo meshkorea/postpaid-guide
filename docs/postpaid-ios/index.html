@@ -581,11 +581,13 @@ button {
 
 /* 마무리는 «앱 화면»이 아니라 «연습 가이드»의 화면입니다. 표지와 같은 파란 바탕을
  * 써서, 파란 화면이면 가이드고 흰 화면이면 실제 앱이라는 규칙을 만듭니다. */
+/* 화면을 덮지 않고 띠 아래에 놓습니다. 덮어버리면 위쪽 «처음으로»가 가려집니다. */
 .outro {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1;
+  min-height: 0;
   background: linear-gradient(180deg, #2f7ce8 0%, #1b64da 55%, #1550b4 100%);
-  padding: 20px 18px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -596,15 +598,15 @@ button {
 .outro__card {
   background: #fff;
   border-radius: 20px;
-  padding: 26px 18px 18px;
+  padding: 22px 16px 16px;
   box-shadow: 0 14px 34px rgba(8, 28, 68, 0.22);
 }
 
 .outro__check {
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   display: block;
-  margin: 0 auto 14px;
+  margin: 0 auto 12px;
 }
 
 .outro__title {
@@ -710,8 +712,8 @@ button {
 
 .outro__btn {
   flex: none;
-  margin-top: 18px;
-  height: 52px;
+  margin-top: 14px;
+  height: 50px;
   border-radius: 14px;
   background: #fff;
   color: var(--blue);
@@ -719,6 +721,19 @@ button {
   font-weight: 700;
   width: 100%;
   box-shadow: 0 6px 16px rgba(8, 28, 68, 0.18);
+}
+
+/* 아래쪽 글자 버튼 둘을 한 줄에 놓습니다. */
+.outro__links {
+  flex: none;
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.outro__links .outro__link {
+  flex: 1;
+  margin-top: 0;
 }
 
 .outro__link {
@@ -4457,8 +4472,7 @@ const TRACKS = [
     /* 아이폰은 KIS Pay를 쓰지 않아 이지체크만 답니다. */
     apps: [{ name: '이지체크', url: 'https://apps.apple.com/kr/app/easycheckic/id1043451429' }],
     recap: [
-      '아이폰은 <b>KIS Pay 없이</b> 바로 이지체크로 가요',
-      '리더기를 등록해두면 다음부터 <b>자동으로 연결</b>돼요',
+      '<b>앱 설치</b>와 <b>가맹점 다운로드</b>를 최초 1번 해야 결제돼요',
       '이지체크는 <b>마지막 확인</b>까지 눌러야 반영돼요',
     ],
   },
@@ -4819,7 +4833,10 @@ function renderOutro() {
       ${t.apps ? appLinks(t.apps) : ''}
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
-    <button class="outro__link" id="o-again">이 연습 다시 하기</button>
+    <div class="outro__links">
+      <button class="outro__link" id="o-again">이 연습 다시 하기</button>
+      ${next ? '<button class="outro__link" id="o-home">처음 화면으로</button>' : ''}
+    </div>
   </div>`
 
   $('#o-next').addEventListener('click', () => {
@@ -4837,6 +4854,11 @@ function renderOutro() {
     app.index = 0
     app.typed = 0
     app.view = 'step'
+    render()
+  })
+  /* 마지막 갈래에서는 위 큰 버튼이 이미 «처음 화면으로»라 따로 두지 않습니다. */
+  $('#o-home')?.addEventListener('click', () => {
+    app.view = 'cover'
     render()
   })
 }

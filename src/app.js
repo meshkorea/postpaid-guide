@@ -125,7 +125,10 @@ function renderOutro() {
       ${t.apps ? appLinks(t.apps) : ''}
     </div>
     <button class="outro__btn" id="o-next">${next ? `다음 연습 · ${next.title}` : '처음 화면으로'}</button>
-    <button class="outro__link" id="o-again">이 연습 다시 하기</button>
+    <div class="outro__links">
+      <button class="outro__link" id="o-again">이 연습 다시 하기</button>
+      ${next ? '<button class="outro__link" id="o-home">처음 화면으로</button>' : ''}
+    </div>
   </div>`
 
   $('#o-next').addEventListener('click', () => {
@@ -143,6 +146,11 @@ function renderOutro() {
     app.index = 0
     app.typed = 0
     app.view = 'step'
+    render()
+  })
+  /* 마지막 갈래에서는 위 큰 버튼이 이미 «처음 화면으로»라 따로 두지 않습니다. */
+  $('#o-home')?.addEventListener('click', () => {
+    app.view = 'cover'
     render()
   })
 }
