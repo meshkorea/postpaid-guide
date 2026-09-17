@@ -111,7 +111,7 @@ function splitDoneIos(s) {
         : ''
     }
     <div class="mini-done">
-      ${ICON.check}
+      ${ICON.checkSolid}
       <p class="mini-done__t">${label}</p>
     </div>`
 }
