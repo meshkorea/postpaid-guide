@@ -48,7 +48,6 @@ function renderCover() {
       }).join('')}
     </div>
     <p class="cover__foot">연습용 화면이라 실제 결제는 일어나지 않아요</p>
-    <a class="cover__switch" href="{{OTHER_HREF}}">{{OTHER_LABEL}}</a>
   </div>`
 
   frame()
