@@ -517,7 +517,6 @@ function receiptSheet(s) {
 
 function ecChrome(inner, { back = true } = {}) {
   return `<div class="ec">
-    <div class="ec__status"><span class="ec__time">4:28</span><span>✈ ᯤ 🔋</span></div>
     <div class="ec__bar"><span>${back ? '‹' : ''}</span><span>신용구매</span><span class="ec__home-ic">⌂</span></div>
     ${inner}
     <div class="ec__indicator"></div>
@@ -635,7 +634,6 @@ function easycheckSign(s) {
   const amt = s.payNow ?? s.total
   const free = amt <= 50000
   return `<div class="ecl">
-    <div class="ec__status"><span class="ec__time">4:28</span><span>✈ ᯤ 🔋</span></div>
     <div class="ecl__stage">
       <div class="ecl__rot">
         <div class="ecl__bar">신용구매</div>
@@ -658,7 +656,6 @@ function easycheckSign(s) {
 /** 6. KICC 승인 (1346:124994) */
 function kiccSplash() {
   return `<div class="ec">
-    <div class="ec__status"><span class="ec__time">4:28</span><span>✈ ᯤ 🔋</span></div>
     <div class="kicc">
       <div class="kicc__logo">KICC</div>
       <div class="kicc__sub">KOREA INFORMATION &amp; COMMUNICATIONS CO. LTD.<br>Total Bridging People &amp; Shop</div>

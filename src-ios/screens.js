@@ -15,7 +15,6 @@
  * 기본값이 «신용구매»라 기존 카드 화면들은 손대지 않아도 그대로 돕니다. */
 function ecChrome(inner, { back = true, title = '신용구매' } = {}) {
   return `<div class="ec">
-    <div class="ec__status"><span class="ec__time">4:28</span><span>✈ ᯤ 🔋</span></div>
     <div class="ec__bar"><span>${back ? '‹' : ''}</span><span>${title}</span><span class="ec__home-ic">⌂</span></div>
     ${inner}
     <div class="ec__indicator"></div>
