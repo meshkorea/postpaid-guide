@@ -374,7 +374,8 @@ const TRACKS = [
       {
         screen: 'mainMap',
         state: {},
-        q: '고객이 현금영수증을 해달라고 해요',
+        q: '방금 현금으로 받은 건이에요',
+        scene: { held: 'receipt', say: '현금영수증 발급해주세요' },
         a: '오른쪽 위 <b>수행목록</b>을 눌러주세요',
         target: '#m-tasks',
       },
