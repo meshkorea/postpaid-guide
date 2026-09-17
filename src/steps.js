@@ -91,7 +91,6 @@ const TRACKS = [
         state: { order: 'card', total: TOTAL },
         q: '먼저 KIS Pay로 해볼게요',
         a: '<b>KIS Pay 결제</b>를 눌러주세요',
-        note: 'NFC·삼성페이·카드 리더기로 받을 때 써요',
         target: '#c-kispay',
       },
       {
@@ -117,7 +116,6 @@ const TRACKS = [
         state: { total: TOTAL },
         q: '이번에는 리더기 없이 해볼게요',
         a: '결제수단에서 <b>카메라결제</b>를 눌러주세요',
-        note: '금액은 부릉플러스에서 그대로 넘어와요. 고쳐서 넣지 마세요',
         target: '#k-way-camera',
       },
       {
@@ -125,7 +123,6 @@ const TRACKS = [
         state: {},
         q: '카메라로 카드를 비추는 화면이에요',
         a: '네모 안의 <b>카드</b>를 눌러주세요',
-        note: '실제로는 카드를 네모에 맞추면 읽혀요. 실물 카드가 맞는지 꼭 확인하세요',
         target: '#k-cam-card',
       },
       {
@@ -226,7 +223,7 @@ const TRACKS = [
         state: { total: TOTAL },
         q: '승인이 끝났어요. 여기가 제일 중요해요',
         a: '<b>확인</b>을 꼭 눌러주세요',
-        note: '이 확인을 눌러야 부릉플러스에 결제 결과가 들어가요. 그냥 나가면 결제가 안 된 것으로 남아요',
+        note: '이 확인을 눌러야 부릉플러스에 결제 결과가 들어가요',
         target: '#e-done-ok',
       },
       {

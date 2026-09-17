@@ -408,6 +408,10 @@ button {
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.72);
   margin: 0;
+  /* «신용결제·삼성페이·카메라결제·…»처럼 가운뎃점으로만 이어진 긴 낱말은
+   * keep-all 때문에 줄이 안 바뀌어, 글꼴이 조금만 넓어도 밖으로 삐져나옵니다.
+   * 이럴 때만 낱말 안에서도 끊게 합니다. */
+  overflow-wrap: anywhere;
 }
 
 .tip__next {
