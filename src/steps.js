@@ -154,7 +154,7 @@ const TRACKS = [
       {
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
-        q: '이번에는 리더기가 없어서 카드번호를 직접 입력해야 해요',
+        q: '이번에는 KIS Pay 앱이 안 돼요. 카드번호를 직접 입력해야 해요',
         a: '다시 <b>카드 58,500원 결제하기</b>를 눌러주세요',
         target: '#cta',
       },
@@ -179,7 +179,7 @@ const TRACKS = [
         state: { readerAlert: true },
         q: '리더기를 등록할지 물어봐요',
         a: '<b>취소</b>를 눌러주세요',
-        note: '리더기를 쓰지 않고 번호만 넣을 거라 등록하지 않아요',
+        note: '번호만 넣을 거라 리더기는 등록하지 않아요',
         target: '#e-reader-no',
       },
       {

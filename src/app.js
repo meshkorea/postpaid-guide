@@ -96,6 +96,17 @@ function renderReady() {
 }
 
 /** 화면 위 안내 띠 */
+/**
+ * 그 화면이 어느 앱인지 — 화면 이름으로 알아냅니다.
+ * 결제 한 건에 앱이 두세 번 바뀌는데, 기사님은 바뀐 줄 모르고 헤맵니다.
+ * 바뀌는 단계에서만 화면이 올라오는 효과를 줘서 «다른 앱이구나»를 알립니다.
+ */
+function appOf(screen) {
+  if (/^kis/.test(screen)) return 'kispay'
+  if (/^(easycheck|ec|kicc)/.test(screen)) return 'easycheck'
+  return 'vroong'
+}
+
 function band({ q, a, note, now, total }) {
   const pct = total ? Math.round(((now + 1) / total) * 100) : 0
   return `<div class="band" id="band">
@@ -182,10 +193,14 @@ function renderStep() {
   const state = { ...step.state }
   if (step.type) state.typed = app.typed
 
+  /* 앞 단계와 앱이 다르면 «다른 앱이 열린다»는 걸 몸으로 알 수 있게 화면을 올려 보냅니다. */
+  const prev = app.track.steps[app.index - 1]
+  const switched = prev && appOf(prev.screen) !== appOf(step.screen)
+
   frame().innerHTML = `
     ${topbar()}
     ${band({ ...step, now: app.index, total: app.track.steps.length })}
-    <div class="viewport" id="vp">
+    <div class="viewport${switched ? ' is-switching' : ''}" id="vp">
       ${SCREENS[step.screen](state)}
     </div>`
 

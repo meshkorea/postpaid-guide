@@ -254,6 +254,34 @@ button {
 /* 스크롤 막대는 연습 화면을 어지럽히므로 숨깁니다. */
 .viewport::-webkit-scrollbar { width: 0; height: 0; }
 
+/* ── 앱이 바뀔 때 ────────────────────────────────────────
+ * 부릉플러스 → KIS Pay → 이지체크로 넘어가는 순간, 폰에서 다른 앱이 뜨듯
+ * 화면이 살짝 작은 데서 커지며 올라옵니다. 바뀐 줄 모르고 헤매지 않게요.
+ * 뒤에 깔린 앞 화면은 잠깐 뒤로 물러나 보입니다. */
+.viewport.is-switching {
+  background: #0c121e;
+}
+
+.viewport.is-switching > :first-child {
+  animation: app-open 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes app-open {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(22px);
+    border-radius: 22px;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    border-radius: 0;
+  }
+}
+
 /* ─────────── 눌러야 할 곳만 남기고 화면을 덮습니다 ─────────── */
 
 .spot {

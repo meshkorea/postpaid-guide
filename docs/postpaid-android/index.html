@@ -262,6 +262,34 @@ button {
 /* 스크롤 막대는 연습 화면을 어지럽히므로 숨깁니다. */
 .viewport::-webkit-scrollbar { width: 0; height: 0; }
 
+/* ── 앱이 바뀔 때 ────────────────────────────────────────
+ * 부릉플러스 → KIS Pay → 이지체크로 넘어가는 순간, 폰에서 다른 앱이 뜨듯
+ * 화면이 살짝 작은 데서 커지며 올라옵니다. 바뀐 줄 모르고 헤매지 않게요.
+ * 뒤에 깔린 앞 화면은 잠깐 뒤로 물러나 보입니다. */
+.viewport.is-switching {
+  background: #0c121e;
+}
+
+.viewport.is-switching > :first-child {
+  animation: app-open 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes app-open {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(22px);
+    border-radius: 22px;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    border-radius: 0;
+  }
+}
+
 /* ─────────── 눌러야 할 곳만 남기고 화면을 덮습니다 ─────────── */
 
 .spot {
@@ -4096,7 +4124,7 @@ const TRACKS = [
       {
         screen: 'detail',
         state: { order: 'card', total: TOTAL },
-        q: '이번에는 리더기가 없어서 카드번호를 직접 입력해야 해요',
+        q: '이번에는 KIS Pay 앱이 안 돼요. 카드번호를 직접 입력해야 해요',
         a: '다시 <b>카드 58,500원 결제하기</b>를 눌러주세요',
         target: '#cta',
       },
@@ -4121,7 +4149,7 @@ const TRACKS = [
         state: { readerAlert: true },
         q: '리더기를 등록할지 물어봐요',
         a: '<b>취소</b>를 눌러주세요',
-        note: '리더기를 쓰지 않고 번호만 넣을 거라 등록하지 않아요',
+        note: '번호만 넣을 거라 리더기는 등록하지 않아요',
         target: '#e-reader-no',
       },
       {
@@ -4488,6 +4516,17 @@ function renderReady() {
 }
 
 /** 화면 위 안내 띠 */
+/**
+ * 그 화면이 어느 앱인지 — 화면 이름으로 알아냅니다.
+ * 결제 한 건에 앱이 두세 번 바뀌는데, 기사님은 바뀐 줄 모르고 헤맵니다.
+ * 바뀌는 단계에서만 화면이 올라오는 효과를 줘서 «다른 앱이구나»를 알립니다.
+ */
+function appOf(screen) {
+  if (/^kis/.test(screen)) return 'kispay'
+  if (/^(easycheck|ec|kicc)/.test(screen)) return 'easycheck'
+  return 'vroong'
+}
+
 function band({ q, a, note, now, total }) {
   const pct = total ? Math.round(((now + 1) / total) * 100) : 0
   return `<div class="band" id="band">
@@ -4574,10 +4613,14 @@ function renderStep() {
   const state = { ...step.state }
   if (step.type) state.typed = app.typed
 
+  /* 앞 단계와 앱이 다르면 «다른 앱이 열린다»는 걸 몸으로 알 수 있게 화면을 올려 보냅니다. */
+  const prev = app.track.steps[app.index - 1]
+  const switched = prev && appOf(prev.screen) !== appOf(step.screen)
+
   frame().innerHTML = `
     ${topbar()}
     ${band({ ...step, now: app.index, total: app.track.steps.length })}
-    <div class="viewport" id="vp">
+    <div class="viewport${switched ? ' is-switching' : ''}" id="vp">
       ${SCREENS[step.screen](state)}
     </div>`
 
